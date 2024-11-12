@@ -93,8 +93,8 @@ RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
 RUN apt-get update && apt-get install tree
 
-COPY ./rosrpi/CONTAINER_START.bash /workspace/CONTAINER_START.bash
 COPY ./rosrpi/workspace/ /workspace/
+COPY ./rosrpi/CONTAINER_START.bash /workspace/CONTAINER_START.bash
 WORKDIR /workspace
 RUN chmod +x /workspace/CONTAINER_START.bash
 #ENTRYPOINT ["/workspace/CONTAINER_START.bash", "-i"]
