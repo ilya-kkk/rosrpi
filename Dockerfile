@@ -97,5 +97,5 @@ COPY ./rosrpi/workspace/ /workspace/
 #COPY ./rosrpi/CONTAINER_START.bash /workspace/CONTAINER_START.bash
 WORKDIR /workspace
 RUN chmod +x /workspace/CONTAINER_START.bash
-ENTRYPOINT ["/workspace/CONTAINER_START.bash", "-i"]
+#ENTRYPOINT ["/workspace/CONTAINER_START.bash", "-i"]
 #CMD ["/bin/bash", "-i"]
