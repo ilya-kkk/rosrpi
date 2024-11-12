@@ -92,5 +92,9 @@ RUN apt-get update && apt-get install -y \
 RUN sudo pip install -U catkin_tools
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
-COPY ./CONTAINER_START.bash /my_scripts/CONTAINER_START.bash
+
+WORKDIR /ws
+COPY . /ws/
+COPY CONTAINER_START.bash /ws/CONTAINER_START.bash
+RUN chmod +x /ws/CONTAINER_START.bash
 ENTRYPOINT ["/my_scripts/CONTAINER_START.bash"]
