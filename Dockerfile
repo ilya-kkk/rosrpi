@@ -91,7 +91,7 @@ RUN pip install opencv-contrib-python
 RUN apt-get update && apt-get install -y python3-catkin-tools 
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
-
+RUN apt-get update && apt-get install tree
 WORKDIR /ws
 COPY ./rosrpi/CONTAINER_START.bash /ws/CONTAINER_START.bash
 
