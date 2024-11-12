@@ -97,4 +97,5 @@ WORKDIR /ws
 COPY . /ws/
 
 RUN chmod +x /ws/rosrpi/CONTAINER_START.bash
-ENTRYPOINT ["/ws/rosrpi/CONTAINER_START.bash", "-i"]
+ENTRYPOINT ["/ws/rosrpi/CONTAINER_START.bash"]
+CMD ["/bin/bash", "-i"]
