@@ -92,9 +92,10 @@ RUN apt-get update && apt-get install -y python3-catkin-tools
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
 RUN apt-get update && apt-get install tree
-WORKDIR /ws
-COPY ./rosrpi/CONTAINER_START.bash /ws/CONTAINER_START.bash
 
+COPY ./rosrpi/CONTAINER_START.bash /workspace/CONTAINER_START.bash
+COPY ./rosrpi/workspace/ /workspace/
+WORKDIR /workspace
 RUN chmod +x /ws/CONTAINER_START.bash
 ENTRYPOINT ["/ws/CONTAINER_START.bash", "-i"]
 #CMD ["/bin/bash", "-i"]
