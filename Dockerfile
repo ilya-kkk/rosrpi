@@ -95,6 +95,6 @@ RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
 WORKDIR /ws
 COPY . /ws/workspace/
 
-RUN chmod +x /ws/rosrpi/CONTAINER_START.bash
-ENTRYPOINT ["/ws/rosrpi/CONTAINER_START.bash", "-i"]
+RUN chmod +x /ws/workspace/rosrpi/CONTAINER_START.bash
+ENTRYPOINT ["/ws/workspace/rosrpi/CONTAINER_START.bash", "-i"]
 #CMD ["/bin/bash", "-i"]
