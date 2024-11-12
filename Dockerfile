@@ -81,14 +81,14 @@ RUN apt-get update && apt-get install -y \
                 libopencv-dev libx11-dev liblapack-dev libv4l-dev libzbar-dev libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
                 libeigen3-dev
 
-# RUN pip install numpy scikit-image 
-# RUN pip install pillow 
-# RUN pip install opencv-contrib-python
+RUN pip install numpy scikit-image 
+RUN pip install pillow 
+RUN pip install opencv-contrib-python
 #RUN sudo sh \
     #-c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
     #    > /etc/apt/sources.list.d/ros-latest.list'
 #RUN $ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-#RUN apt-get install python3-catkin-tools
+RUN apt-get install python3-catkin-tools
 RUN sudo pip install -U catkin_tools
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
