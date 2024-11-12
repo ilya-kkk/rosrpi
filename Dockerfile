@@ -93,8 +93,9 @@ RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
 
 WORKDIR /ws
-COPY . /ws/workspace/
+COPY ./workspace /ws/workspace
+COPY ./rosrpi/CONTAINER_START.bash /ws/CONTAINER_START.bash
 
-RUN chmod +x /ws/workspace/rosrpi/CONTAINER_START.bash
-ENTRYPOINT ["/ws/workspace/rosrpi/CONTAINER_START.bash", "-i"]
+RUN chmod +x /ws/CONTAINER_START.bash
+ENTRYPOINT ["/ws/CONTAINER_START.bash", "-i"]
 #CMD ["/bin/bash", "-i"]
