@@ -88,7 +88,7 @@ RUN pip install opencv-contrib-python
     #-c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
     #    > /etc/apt/sources.list.d/ros-latest.list'
 #RUN $ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-RUN apt-get install python3-catkin-tools
+RUN sudo apt-get install python3-catkin-tools
 RUN sudo pip install -U catkin_tools --noconfirm
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
