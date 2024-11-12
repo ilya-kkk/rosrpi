@@ -95,6 +95,6 @@ RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
 
 WORKDIR /ws
 COPY . /ws/
-COPY CONTAINER_START.bash /ws/CONTAINER_START.bash
-RUN chmod +x /ws/CONTAINER_START.bash
-ENTRYPOINT ["/my_scripts/CONTAINER_START.bash"]
+
+#RUN chmod +x /ws/CONTAINER_START.bash
+#ENTRYPOINT ["/my_scripts/CONTAINER_START.bash"]
