@@ -10,7 +10,7 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
                 -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
                 -e XAUTHORITY \
                 -v /dev:/dev \
-                -v $ROOT_DIR/workspace:/workspace \
+                -v /home/rpi/Desktop/rosrpi/workspace:/workspace \
                --net=host \
                --privileged \
                --name ros_arm1 ros_arm
