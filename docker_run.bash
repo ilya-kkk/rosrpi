@@ -13,5 +13,5 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
                 -v $ROOT_DIR/workspace:/workspace \
                --net=host \
                --privileged \
-               --name ros_arm1 ros_arm
+               --name ros_arm1 ilya9kkk/ros_arm:latest
 
