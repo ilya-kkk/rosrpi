@@ -92,5 +92,5 @@ RUN apt-get update && apt-get install -y \
 RUN sudo pip install -U catkin_tools
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
-COPY ./CONTAINER_START.bash /CONTAINER_START.bash
+COPY /home/rpi/Desktop/rosrpi/CONTAINER_START.bash /CONTAINER_START.bash
 ENTRYPOINT ["bash", "CONTAINER_START.bash"]
