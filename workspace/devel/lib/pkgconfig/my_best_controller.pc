@@ -1,0 +1,1 @@
+/workspace/devel/.private/my_best_controller/lib/pkgconfig/my_best_controller.pc

@@ -1,0 +1,1 @@
+/workspace/devel/.private/my_super_robot_controller/lib/pkgconfig/my_super_robot_controller.pc

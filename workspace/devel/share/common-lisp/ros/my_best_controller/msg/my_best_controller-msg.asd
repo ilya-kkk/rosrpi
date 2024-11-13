@@ -1,0 +1,1 @@
+/workspace/devel/.private/my_best_controller/share/common-lisp/ros/my_best_controller/msg/my_best_controller-msg.asd

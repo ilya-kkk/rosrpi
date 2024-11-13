@@ -1,0 +1,8 @@
+prefix=/workspace/install
+
+Name: my_best_controller
+Description: Description of my_best_controller
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: 

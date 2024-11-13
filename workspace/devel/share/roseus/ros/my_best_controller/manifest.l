@@ -1,0 +1,1 @@
+/workspace/devel/.private/my_best_controller/share/roseus/ros/my_best_controller/manifest.l

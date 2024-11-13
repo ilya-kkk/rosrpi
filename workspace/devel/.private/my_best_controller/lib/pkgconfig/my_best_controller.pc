@@ -1,0 +1,8 @@
+prefix=/workspace/devel/.private/my_best_controller
+
+Name: my_best_controller
+Description: Description of my_best_controller
+Version: 0.0.0
+Cflags: -I/workspace/devel/.private/my_best_controller/include
+Libs: -L${prefix}/lib 
+Requires: 

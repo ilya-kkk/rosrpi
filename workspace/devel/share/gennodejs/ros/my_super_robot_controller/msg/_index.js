@@ -1,0 +1,1 @@
+/workspace/devel/.private/my_super_robot_controller/share/gennodejs/ros/my_super_robot_controller/msg/_index.js

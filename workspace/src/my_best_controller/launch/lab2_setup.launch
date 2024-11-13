@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<param name="frequency" value="30" />
+	<group ns="ns1_470122">
+		<node name="my_best_node" pkg="my_best_controller" type="my_best_node.py" output="screen">
+		</node>
+		<node pkg="turtlesim" type="turtlesim_node" name="sim">
+			<!-- <remap from="/turtle1/cmd_vel" to="/ns1_470122/turtle1/cmd_vel"/>
+			<remap from="/turtle1/pose" to="/ns1_470122/turtle1/pose"/> -->
+		</node>
+	</group>
+
+	<group ns="ns2_470122">
+		<node name="my_best_node" pkg="my_best_controller" type="my_best_node.py" output="screen">
+		</node>
+		<node pkg="turtlesim" type="turtlesim_node" name="sim">
+			<!-- <remap from="/turtle2/cmd_vel" to="/ns2_470122/turtle2/cmd_vel"/>
+			<remap from="/turtle2/pose" to="/ns2_470122/turtle2/pose"/> -->
+		</node>
+	</group>
+	
+</launch> 

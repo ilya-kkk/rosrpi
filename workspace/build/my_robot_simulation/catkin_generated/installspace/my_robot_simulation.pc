@@ -1,0 +1,8 @@
+prefix=/workspace/install
+
+Name: my_robot_simulation
+Description: Description of my_robot_simulation
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
