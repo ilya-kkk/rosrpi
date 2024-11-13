@@ -94,7 +94,7 @@ RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
 RUN apt-get update && apt-get install tree
 
 COPY ./rosrpi/workspace/ /workspace/
-RUN chmod +x /workspace/CONTAINER_START.bash
+RUN chmod +x ./workspace/CONTAINER_START.bash
 
 WORKDIR /workspace
 ENTRYPOINT ["./workspace/CONTAINER_START.bash", "-i"]
