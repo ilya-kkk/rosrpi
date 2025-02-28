@@ -4,49 +4,52 @@
 
 ### First terminal: 
 ```
-    git clone https://github.com/ilya-kkk/rosrpi.git
+git clone https://github.com/ilya-kkk/rosrpi.git
 ```
 ```
-    cd rosrpi
+cd rosrpi
 ```
   Or 
 ```
-    cd rosrpi
+cd rosrpi
 ```
 ```
-    git pull
+git pull
 ```
 Then
 ```
-    ./pc_run/docker_run.bash 
+./pc_run/docker_run.bash 
 ```
 
  #### In container:
  ```
-        ./workspace/CONTAINER_START.bash 
+ ./workspace/CONTAINER_START.bash 
 ```
 ```
-        roslaunch ...
+roslaunch ...
 ```
 
 ### Second terminal on pc:
 ```
-    ssh rpi@rpi
+ssh rpi@rpi
 ```
   12345 (password)
 
 ```
-    git clone https://github.com/ilya-kkk/rosrpi.git
+git clone https://github.com/ilya-kkk/rosrpi.git
 ```
 ```
-    cd rosrpi
+cd rosrpi
 ```
    or 
    ```
-    cd rosrpi
+cd rosrpi
 ```
 ```
-    git pull
+git fetch --all
+```
+```
+git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 ```
 ```
     bash rpi_run/rpi_docker_run.bash
