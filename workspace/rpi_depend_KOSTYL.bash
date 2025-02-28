@@ -9,6 +9,9 @@ sudo apt-get install -y libc6-dev:arm64
 # Устанавливаем библиотеку для работы с Raspberry Pi (включает MMAL)
 sudo apt-get install -y libraspberrypi-dev
 
+# Устанавливаем библиотеку RT
+sudo apt-get install -y lib32rt1
+
 # Устанавливаем библиотеки Boost для C++
 sudo apt-get install -y libboost-all-dev
 
