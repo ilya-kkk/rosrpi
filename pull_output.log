@@ -1,0 +1,4 @@
+base: Pulling from ilya9kkk/ros_itmo
+Digest: sha256:f85ef07efa4accc0252509d30b0700cbf792998e5e3e3b205f5d44a0fcf31765
+Status: Image is up to date for ilya9kkk/ros_itmo:base
+docker.io/ilya9kkk/ros_itmo:base

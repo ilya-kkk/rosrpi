@@ -1,0 +1,1 @@
+/workspace/devel/.private/project_470122/lib/pkgconfig/project_470122.pc

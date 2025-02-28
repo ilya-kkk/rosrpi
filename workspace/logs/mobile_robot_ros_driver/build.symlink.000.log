@@ -1,0 +1,5 @@
+Symlinking /workspace/devel/share/mobile_robot_ros_driver/cmake/mobile_robot_ros_driverConfig.cmake
+Symlinking /workspace/devel/share/mobile_robot_ros_driver/cmake/mobile_robot_ros_driverConfig-version.cmake
+Symlinking /workspace/devel/lib/pkgconfig/mobile_robot_ros_driver.pc
+Symlinking /workspace/devel/lib/mobile_robot_ros_driver/cmake.lock
+Symlinking /workspace/devel/lib/mobile_robot_ros_driver/range_sensor_node.py

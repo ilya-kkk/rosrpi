@@ -1,0 +1,1 @@
+/workspace/devel/.private/raspicam_node/share/common-lisp/ros/raspicam_node/msg/raspicam_node-msg.asd
