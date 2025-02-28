@@ -1,1 +1,1 @@
-test ros in docker armv8 container on raspberry pi4 
+ITMO omni robot project rep
