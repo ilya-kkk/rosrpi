@@ -2,7 +2,9 @@
 
 xhost +local:docker || true
 
-ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+
+docker pull ilya9kkk/ros_arm:latest
 
     docker run  -ti --rm \
                 -e "DISPLAY" \
@@ -10,8 +12,8 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
                 -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
                 -e XAUTHORITY \
                 -v /dev:/dev \
-                -v /home/rpi/Desktop/rosrpi/workspace:/workspace \
+                -v $ROOT_DIR/workspace:/workspace \
                --net=host \
                --privileged \
-               --name ros_arm1 ros_arm
+               --name ros_pc ilya9kkk/ros_arm:latest
 
