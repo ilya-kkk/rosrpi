@@ -107,7 +107,7 @@ RUN apt-get install -y libasio-dev
 
 
 WORKDIR /workspace
-COPY ./rosrpi/workspace/ /workspace/
+COPY ../workspace/ /workspace/
 RUN chmod +x /workspace/CONTAINER_START.bash
 
 ENTRYPOINT ["bash", "/workspace/CONTAINER_START.bash", "-i"]
