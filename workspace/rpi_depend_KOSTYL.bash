@@ -19,3 +19,6 @@ sudo apt install python3-rosdep
 sudo rosdep init
 rosdep update
 rosdep install --from-paths workspace/src --ignore-src -r -y
+
+# Выполнение скрипта container_start
+/workspace/container_start.bash
