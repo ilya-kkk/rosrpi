@@ -7,8 +7,8 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 docker pull ilya9kkk/ros_arm:latest
 
     docker run  -ti --rm \
-                --device /dev/vchiq \
-                --device /dev/video0 \
+                --device /dev/media4 \
+                --device /dev/media0 \
                 -v /opt/vc:/opt/vc \
                 -e "DISPLAY" \
                 -e "QT_X11_NO_MITSHM=1" \

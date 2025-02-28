@@ -10,6 +10,7 @@ echo "CONTAINER START SCRIPT RUNNING..."
 echo "Переходим в директорию workspace..."
 cd workspace
 
+catkin clean
 echo "Строим catkin workspace..."
 catkin build
 

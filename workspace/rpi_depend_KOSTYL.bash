@@ -24,6 +24,8 @@ sudo apt-get install -y libboost-all-dev > /dev/null 2>&1
 echo "Устанавливаем библиотеку Asio для работы с асинхронными операциями ввода/вывода"
 sudo apt-get install -y libasio-dev > /dev/null 2>&1
 
+sudo apt install -y libraspberrypi-bin > /dev/null 2>&1
+
 echo "Устанавливаем python3-rosdep"
 sudo apt install python3-rosdep > /dev/null 2>&1
 echo "Инициализация rosdep"
@@ -33,6 +35,4 @@ rosdep update > /dev/null 2>&1
 echo "Установка зависимостей rosdep"
 rosdep install --from-paths workspace/src --ignore-src -r -y > /dev/null 2>&1
 
-# Выполнение скрипта container_start
-echo "Выполнение скрипта container_start"
-/workspace/container_start.bash
+
