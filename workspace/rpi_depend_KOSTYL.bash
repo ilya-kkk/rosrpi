@@ -14,3 +14,8 @@ sudo apt-get install -y libboost-all-dev
 
 # Устанавливаем библиотеку Asio для работы с асинхронными операциями ввода/вывода
 sudo apt-get install -y libasio-dev
+
+sudo apt install python3-rosdep
+sudo rosdep init
+rosdep update
+rosdep install --from-paths workspace/src --ignore-src -r -y
