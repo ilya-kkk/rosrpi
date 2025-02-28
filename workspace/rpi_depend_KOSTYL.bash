@@ -24,7 +24,11 @@ sudo apt-get install -y libboost-all-dev > /dev/null 2>&1
 echo "Устанавливаем библиотеку Asio для работы с асинхронными операциями ввода/вывода"
 sudo apt-get install -y libasio-dev > /dev/null 2>&1
 
+
+sudo apt update
 sudo apt install -y libraspberrypi-bin > /dev/null 2>&1
+sudo apt install libraspberrypi-dev libraspberrypi0 libmmal-dev libmmal-core-dev
+
 
 echo "Устанавливаем python3-rosdep"
 sudo apt install python3-rosdep > /dev/null 2>&1
