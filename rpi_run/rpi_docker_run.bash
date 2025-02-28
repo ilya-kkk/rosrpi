@@ -19,5 +19,5 @@ docker pull ilya9kkk/ros_arm:latest
                --net=host \
                --privileged \
                --name ros_pc ilya9kkk/ros_arm:latest
-            bash -c "sleep 5 && /workspace/rpi_depend_KOSTYL.bash"
+            bash -c "sleep 5 && /workspace/rpi_depend_KOSTYL.bash && exec bash"
 
