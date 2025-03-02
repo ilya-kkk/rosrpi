@@ -39,14 +39,31 @@ fi
 echo "Создание правил udev для доступа к камере..."
 echo 'SUBSYSTEM=="vchiq",MODE="0666"' | sudo tee /etc/udev/rules.d/99-camera.rules
 sudo udevadm control --reload-rules && sudo udevadm trigger
+###################### Установка из исходников #####################
+# sudo apt install -y libraspberrypi-bin libraspberrypi-dev
 
+apt update && apt install -y \
+    cmake ninja-build pkg-config python3-pip \
+    python3-yaml python3-ply python3-jinja2 \
+    git g++ libclang-dev clang \
+    libboost-dev libgnutls28-dev openssl \
+    libtiff5-dev libevent-dev
+
+apt update && apt install -y \
+    meson ninja-build python3-pip
+pip3 install --upgrade meson
+
+git clone https://git.libcamera.org/libcamera/libcamera.git  
+cd libcamera 
+
+meson setup build
+ninja -C build
+ninja -C build install
+ldconfig
+###################################################################
 echo "Проверка состояния камеры..."
 vcgencmd get_camera
 
-echo "Запуск ROS и проверка ноды камеры..."
-source /opt/ros/noetic/setup.bash
-roscore & sleep 5
-rosrun tf static_transform_publisher 0 0 0 0 0 0 1 map camera_link 10 &
 
-echo "Готово! Теперь можно запускать ноду камеры."
+echo "Готово!"
 exit 0
