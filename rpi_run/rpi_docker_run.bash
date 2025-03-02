@@ -19,6 +19,6 @@ docker run  -ti --rm \                     # Запускаем контейне
                --net=host \                # Используем сеть хоста (прямой доступ без NAT)
                --ipc=host \                # Разделяем IPC-пространство с хостом (для общения между процессами)
                --privileged \              # Даем контейнеру повышенные привилегии (полный доступ к оборудованию)
-               --name ros_pc ilya9kkk/ros_arm:latest \  # Имя контейнера "ros_pc", используем образ "ilya9kkk/ros_arm:latest"
+               --name ros_pc ilya9kkk/ros_arm:latest   # Имя контейнера "ros_pc", используем образ "ilya9kkk/ros_arm:latest"
 
 
