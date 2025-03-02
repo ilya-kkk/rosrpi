@@ -42,3 +42,5 @@ sudo apt install python3-rosdep
 sudo rosdep init
 rosdep update
 cd workspace && rosdep install --from-paths src --ignore-src -r -y
+
+echo "Скрипт выполнен успешно!"
