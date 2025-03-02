@@ -1,46 +1,52 @@
 #!/bin/bash
 
-# Обновляем список пакетов
-sudo apt-get update
+echo "Обновление списка пакетов..."
+sudo apt update && sudo apt upgrade -y
 
-# Устанавливаем необходимые библиотеки для ARM64
-sudo apt-get install -y libc6-dev:arm64
+echo "Установка необходимых пакетов..."
+sudo apt install -y \
+    ros-noetic-image-transport \
+    ros-noetic-camera-info-manager \
+    ros-noetic-cv-bridge \
+    ros-noetic-compressed-image-transport \
+    ros-noetic-theora-image-transport \
+    ros-noetic-rqt-image-view \
+    v4l-utils \
+    libcamera-dev \
+    libcamera-tools \
+    libcamera-apps \
+    mesa-utils \
+    udev
 
-# Устанавливаем библиотеку для работы с Raspberry Pi (включает MMAL)
-sudo apt-get install -y libraspberrypi-dev
+echo "Добавление пользователя в группу видео..."
+sudo usermod -aG video $(whoami)
 
-# Устанавливаем библиотеки Boost для C++
-sudo apt-get install -y libboost-all-dev
+echo "Проверка и загрузка драйвера камеры..."
+sudo modprobe bcm2835-v4l2
+echo "bcm2835-v4l2" | sudo tee -a /etc/modules
 
-# Устанавливаем библиотеку Asio для работы с асинхронными операциями ввода/вывода
-sudo apt-get install -y libasio-dev
+echo "Проверка доступности камеры..."
+if [ ! -e /dev/video0 ]; then
+    echo "Ошибка: /dev/video0 не найден! Проверьте подключение камеры."
+    exit 1
+fi
 
-apt update && apt install -y v4l-utils  
-apt update
+if [ ! -e /dev/vchiq ]; then
+    echo "Ошибка: /dev/vchiq не найден! Проверьте настройки Raspberry Pi."
+    exit 1
+fi
 
-######## СМЕРТЕЛЬНЫЙ НОМЕР, СОБИРАЕМ ПАКЕТ ИЗ ИСХОДНИКОВ ################
-apt update && apt install -y \
-    cmake ninja-build pkg-config python3-pip \
-    python3-yaml python3-ply python3-jinja2 python3-pyparsing \
-    python3-dev python3-pil python3-scipy \
-    libboost-dev libgnutls28-dev openssl \
-    libtiff-dev libjpeg-dev libpng-dev \
-    libevent-dev libcurl4-openssl-dev \
-    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+echo "Создание правил udev для доступа к камере..."
+echo 'SUBSYSTEM=="vchiq",MODE="0666"' | sudo tee /etc/udev/rules.d/99-camera.rules
+sudo udevadm control --reload-rules && sudo udevadm trigger
 
-git clone --depth=1 https://git.libcamera.org/libcamera/libcamera.git
-cd libcamera
+echo "Проверка состояния камеры..."
+vcgencmd get_camera
 
-mkdir build && cd build
-cmake -GNinja ..
-ninja
-ninja install
-ldconfig
-########################################################################
+echo "Запуск ROS и проверка ноды камеры..."
+source /opt/ros/noetic/setup.bash
+roscore & sleep 5
+rosrun tf static_transform_publisher 0 0 0 0 0 0 1 map camera_link 10 &
 
-sudo apt install python3-rosdep
-sudo rosdep init
-rosdep update
-cd workspace && rosdep install --from-paths src --ignore-src -r -y
-
-echo "Скрипт выполнен успешно!"
+echo "Готово! Теперь можно запускать ноду камеры."
+exit 0
