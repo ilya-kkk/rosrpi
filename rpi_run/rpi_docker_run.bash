@@ -9,6 +9,7 @@ docker pull ilya9kkk/ros_arm:latest
     docker run  -ti --rm \
                 --device /dev/vchiq \
                 --device /dev/video0 \
+                --env LD_LIBRARY_PATH=/opt/vc/lib \
                 -v /opt/vc:/opt/vc \
                 -e "DISPLAY" \
                 -e "QT_X11_NO_MITSHM=1" \
