@@ -41,4 +41,4 @@ ldconfig
 sudo apt install python3-rosdep
 sudo rosdep init
 rosdep update
-rosdep install --from-paths workspace/src --ignore-src -r -y
+cd workspace && rosdep install --from-paths src --ignore-src -r -y
