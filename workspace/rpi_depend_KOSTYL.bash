@@ -16,14 +16,15 @@ sudo apt install -y \
     libcamera-tools \
     libcamera-apps \
     mesa-utils \
-    udev
+    udev \
+    ros-noetic-usb-cam
 
 echo "Добавление пользователя в группу видео..."
 sudo usermod -aG video $(whoami)
 
-echo "Проверка и загрузка драйвера камеры..."
-sudo modprobe bcm2835-v4l2
-echo "bcm2835-v4l2" | sudo tee -a /etc/modules
+# echo "Проверка и загрузка драйвера камеры..."
+# sudo modprobe bcm2835-v4l2
+# echo "bcm2835-v4l2" | sudo tee -a /etc/modules
 
 echo "Проверка доступности камеры..."
 if [ ! -e /dev/video0 ]; then
@@ -38,31 +39,32 @@ fi
 
 echo "Создание правил udev для доступа к камере..."
 echo 'SUBSYSTEM=="vchiq",MODE="0666"' | sudo tee /etc/udev/rules.d/99-camera.rules
-sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# sudo udevadm control --reload-rules && sudo udevadm trigger
 ###################### Установка из исходников #####################
 # sudo apt install -y libraspberrypi-bin libraspberrypi-dev
 
-apt update && apt install -y \
-    cmake ninja-build pkg-config python3-pip \
-    python3-yaml python3-ply python3-jinja2 \
-    git g++ libclang-dev clang \
-    libboost-dev libgnutls28-dev openssl \
-    libtiff5-dev libevent-dev
+# apt update && apt install -y \
+#     cmake ninja-build pkg-config python3-pip \
+#     python3-yaml python3-ply python3-jinja2 \
+#     git g++ libclang-dev clang \
+#     libboost-dev libgnutls28-dev openssl \
+#     libtiff5-dev libevent-dev
 
-apt update && apt install -y \
-    meson ninja-build python3-pip
-pip3 install --upgrade meson
+# apt update && apt install -y \
+#     meson ninja-build python3-pip
+# pip3 install --upgrade meson
 
-git clone https://git.libcamera.org/libcamera/libcamera.git  
-cd libcamera 
+# git clone https://git.libcamera.org/libcamera/libcamera.git  
+# cd libcamera 
 
-meson setup build
-ninja -C build
-ninja -C build install
-ldconfig
+# meson setup build
+# ninja -C build
+# ninja -C build install
+# ldconfig
 ###################################################################
-echo "Проверка состояния камеры..."
-vcgencmd get_camera
+# echo "Проверка состояния камеры..."
+# vcgencmd get_camera
 
 
 echo "Готово!"

@@ -5,8 +5,8 @@ xhost +local:docker || true
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 docker run -ti --rm \
-    --device /dev/video0 \
-    --device /dev/vchiq:/dev/vchiq \
+    --device=/dev/video0:/dev/video0 \
+    --group-add $(getent group video | cut -d: -f3) \
     --env LD_LIBRARY_PATH=/opt/vc/lib \
     --device-cgroup-rule='c 81:* rmw' \
     -v /opt/vc:/opt/vc \
