@@ -54,10 +54,10 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     curl -s 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc' | apt-key add - && \
     apt-get update && DEBIAN_FRONTEND=noninteractive \
                       apt-get install -y ros-noetic-desktop-full \
-                                         ros-noetic-gazebo-ros-pkgs \
                                          ros-noetic-ros-control \
-                                         ros-noetic-gazebo-ros-control \
                                          ros-noetic-teleop-twist-keyboard        
+                                        #  ros-noetic-gazebo-ros-pkgs \
+                                        #  ros-noetic-gazebo-ros-control \
     #                                      python3-rosdep\
     #                                      python3-rosinstall \
     #                                      python3-rosinstall-generator \
@@ -100,15 +100,25 @@ RUN apt-get install -y libc6-dev:arm64
 # Устанавливаем библиотеку для работы с Raspberry Pi (включает MMAL)
 RUN apt-get install -y libraspberrypi-dev
 # Устанавливаем библиотеки Boost для C++
-RUN apt-get install -y libboost-all-dev
+# RUN apt-get install -y libboost-all-dev
 # Устанавливаем библиотеку Asio для работы с асинхронными операциями ввода/вывода
-RUN apt-get install -y libasio-dev
+# RUN apt-get install -y libasio-dev
 
+RUN apt-get update && apt-get install -y \
+    ros-noetic-image-transport \
+    ros-noetic-camera-info-manager \
+    ros-noetic-cv-bridge \
+    ros-noetic-compressed-image-transport \
+    ros-noetic-theora-image-transport \
+    ros-noetic-rqt-image-view \
+    v4l-utils \
+    mesa-utils \
+    udev \
+    ros-noetic-usb-cam \
+    fswebcam
 
+RUN usermod -aG video $(whoami)
+RUN echo 'SUBSYSTEM=="vchiq",MODE="0666"' | tee /etc/udev/rules.d/99-camera.rules
 
 WORKDIR /workspace
 COPY ../workspace/ /workspace/
-RUN chmod +x /workspace/CONTAINER_START.bash
-
-ENTRYPOINT ["bash", "/workspace/CONTAINER_START.bash", "-i"]
-#CMD ["/bin/bash", "-i"]
