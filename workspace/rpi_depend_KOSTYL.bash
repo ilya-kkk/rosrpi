@@ -12,12 +12,10 @@ sudo apt install -y \
     ros-noetic-theora-image-transport \
     ros-noetic-rqt-image-view \
     v4l-utils \
-    libcamera-dev \
-    libcamera-tools \
-    libcamera-apps \
     mesa-utils \
     udev \
-    ros-noetic-usb-cam
+    ros-noetic-usb-cam \
+    fswebcam
 
 echo "Добавление пользователя в группу видео..."
 sudo usermod -aG video $(whoami)
