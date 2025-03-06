@@ -1,9 +1,15 @@
 #!/bin/bash
 
-echo "Обновление списка пакетов..."
-sudo apt update && sudo apt upgrade -y
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
 
-echo "Установка необходимых пакетов..."
+echo -e "${YELLOW}Обновление списка пакетов...${NC}"
+sudo apt update 
+
+echo -e "${YELLOW}Установка необходимых пакетов...${NC}"
 sudo apt install -y \
     ros-noetic-image-transport \
     ros-noetic-camera-info-manager \
@@ -17,53 +23,23 @@ sudo apt install -y \
     ros-noetic-usb-cam \
     fswebcam
 
-echo "Добавление пользователя в группу видео..."
+echo -e "${YELLOW}Добавление пользователя в группу видео...${NC}"
 sudo usermod -aG video $(whoami)
 
-# echo "Проверка и загрузка драйвера камеры..."
-# sudo modprobe bcm2835-v4l2
-# echo "bcm2835-v4l2" | sudo tee -a /etc/modules
-
-echo "Проверка доступности камеры..."
+echo -e "${YELLOW}Проверка доступности камеры...${NC}"
 if [ ! -e /dev/video0 ]; then
-    echo "Ошибка: /dev/video0 не найден! Проверьте подключение камеры."
+    echo -e "${RED}Ошибка: /dev/video0 не найден! Проверьте подключение камеры.${NC}"
     exit 1
 fi
 
 if [ ! -e /dev/vchiq ]; then
-    echo "Ошибка: /dev/vchiq не найден! Проверьте настройки Raspberry Pi."
+    echo -e "${RED}Ошибка: /dev/vchiq не найден! Проверьте настройки Raspberry Pi.${NC}"
     exit 1
 fi
+echo -e "${GREEN}Проверка успешно пройдена${NC}"
 
-echo "Создание правил udev для доступа к камере..."
+echo -e "${YELLOW}Создание правил udev для доступа к камере...${NC}"
 echo 'SUBSYSTEM=="vchiq",MODE="0666"' | sudo tee /etc/udev/rules.d/99-camera.rules
 
-# sudo udevadm control --reload-rules && sudo udevadm trigger
-###################### Установка из исходников #####################
-# sudo apt install -y libraspberrypi-bin libraspberrypi-dev
-
-# apt update && apt install -y \
-#     cmake ninja-build pkg-config python3-pip \
-#     python3-yaml python3-ply python3-jinja2 \
-#     git g++ libclang-dev clang \
-#     libboost-dev libgnutls28-dev openssl \
-#     libtiff5-dev libevent-dev
-
-# apt update && apt install -y \
-#     meson ninja-build python3-pip
-# pip3 install --upgrade meson
-
-# git clone https://git.libcamera.org/libcamera/libcamera.git  
-# cd libcamera 
-
-# meson setup build
-# ninja -C build
-# ninja -C build install
-# ldconfig
-###################################################################
-# echo "Проверка состояния камеры..."
-# vcgencmd get_camera
-
-
-echo "Готово!"
+echo -e "${GREEN}Готово!${NC}"
 exit 0
