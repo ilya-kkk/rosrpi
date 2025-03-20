@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   ros_rpi:
     image: ilya9kkk/ros_arm:camera
