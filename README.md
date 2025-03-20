@@ -39,26 +39,13 @@ ssh rpi@rpi
 git clone https://github.com/ilya-kkk/rosrpi.git
 ```
 ```
-cd rosrpi
-```
-   or 
-   ```
-cd rosrpi
-```
-```
-git fetch --all
-```
-```
-git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
-```
-```
-    bash rpi_run/rpi_docker_run.bash
+cd rosrpi/rpi_run/ && docker compose up -d && docker attach ros_rpi
 ```
 
   #### In container:
-
+(мб уже пофиксил)
 ```
-        ./workspace/CONTAINER_START.bash
+        ./workspace/CONTAINER_START.bash 
 ```
 WITHOUT arduino launch 
 ```
