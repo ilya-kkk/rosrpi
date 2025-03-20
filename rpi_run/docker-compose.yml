@@ -21,9 +21,5 @@ services:
       - /dev:/dev
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
       - ${ROOT_DIR}/workspace:/workspace
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu] # если используешь GPU
+
 
