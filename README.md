@@ -56,12 +56,15 @@ git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 ```
 
   #### In container:
-  ```
-        bash workspace/rpi_depend_KOSTYL.bash
-```
+
 ```
         ./workspace/CONTAINER_START.bash
 ```
+WITHOUT arduino launch 
 ```
-        roslaunch ...
+        roslaunch core start.launch disable_ll:=true
+```
+normal launch
+```
+        roslaunch core start.launch 
 ```
