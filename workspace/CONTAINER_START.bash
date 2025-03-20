@@ -16,7 +16,7 @@ echo "${YELLOW}CONTAINER START SCRIPT RUNNING...${NC}"
 echo "${YELLOW}Переходим в директорию workspace...${NC}"
 cd workspace
 
-catkin clean
+catkin clean -y
 echo "${YELLOW}Строим catkin workspace...${NC}"
 catkin build
 
