@@ -1,8 +1,0 @@
-prefix=/workspace/devel/.private/project_470122
-
-Name: project_470122
-Description: Description of project_470122
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: ros_control ros_controllers gazebo_ros_control

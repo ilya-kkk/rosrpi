@@ -1,1 +1,0 @@
-/workspace/devel/.private/my_robot_controller/lib/pkgconfig/my_robot_controller.pc

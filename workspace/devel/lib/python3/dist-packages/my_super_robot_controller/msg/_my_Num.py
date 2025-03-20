@@ -1,1 +1,0 @@
-/workspace/devel/.private/my_super_robot_controller/lib/python3/dist-packages/my_super_robot_controller/msg/_my_Num.py

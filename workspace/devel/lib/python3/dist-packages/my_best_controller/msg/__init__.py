@@ -1,1 +1,0 @@
-/workspace/devel/.private/my_best_controller/lib/python3/dist-packages/my_best_controller/msg/__init__.py

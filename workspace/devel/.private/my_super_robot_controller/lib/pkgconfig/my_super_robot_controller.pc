@@ -1,8 +1,0 @@
-prefix=/workspace/devel/.private/my_super_robot_controller
-
-Name: my_super_robot_controller
-Description: Description of my_super_robot_controller
-Version: 0.0.0
-Cflags: -I/workspace/devel/.private/my_super_robot_controller/include
-Libs: -L${prefix}/lib 
-Requires: 

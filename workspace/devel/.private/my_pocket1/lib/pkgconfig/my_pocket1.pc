@@ -1,8 +1,0 @@
-prefix=/workspace/devel/.private/my_pocket1
-
-Name: my_pocket1
-Description: Description of my_pocket1
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,1 +1,0 @@
-/workspace/devel/.private/my_super_robot_controller/share/roseus/ros/my_super_robot_controller/msg/my_Num.l

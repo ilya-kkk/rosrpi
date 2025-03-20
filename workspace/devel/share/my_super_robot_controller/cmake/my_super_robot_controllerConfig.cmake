@@ -1,1 +1,0 @@
-/workspace/devel/.private/my_super_robot_controller/share/my_super_robot_controller/cmake/my_super_robot_controllerConfig.cmake

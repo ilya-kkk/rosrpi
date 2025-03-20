@@ -1,1 +1,0 @@
-/workspace/devel/.private/my_super_robot_controller/share/common-lisp/ros/my_super_robot_controller/msg/_package_Num.lisp
