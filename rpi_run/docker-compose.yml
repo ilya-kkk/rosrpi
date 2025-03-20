@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  ros_rpi:
+    image: ilya9kkk/ros_arm:camera
+    container_name: ros_rpi
+    privileged: true
+    network_mode: "host"
+    ipc: "host"
+    devices:
+      - /dev/video0:/dev/video0
+    group_add:
+      - ${VIDEO_GID}
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY
+      - LD_LIBRARY_PATH=/opt/vc/lib
+    volumes:
+      - /opt/vc:/opt/vc
+      - /dev:/dev
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+      - ${ROOT_DIR}/workspace:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu] # если используешь GPU
+
