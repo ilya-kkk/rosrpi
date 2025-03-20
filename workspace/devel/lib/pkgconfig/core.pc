@@ -1,0 +1,1 @@
+/workspace/devel/.private/core/lib/pkgconfig/core.pc
