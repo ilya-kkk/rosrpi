@@ -9,11 +9,11 @@ from cv_bridge import CvBridge
 class WhiteRegionDetector:
     def __init__(self):
         # Подписка на исходное изображение
-        sub_topic_name = "/camera1/image_topic"
+        sub_topic_name = "/camera1/image_raw"
         self.camera_subscriber = rospy.Subscriber(sub_topic_name, Image, self.camera_cb)
 
         # Паблишеры для обработанных изображений и данных
-        self.image_publisher = rospy.Publisher("/camera1/white_region", Image, queue_size=10)
+        self.image_publisher = rospy.Publisher("/white_region", Image, queue_size=10)
         self.value_publisher = rospy.Publisher("/value", Float64, queue_size=10)
         self.flag_publisher = rospy.Publisher("/flag", Bool, queue_size=10)
 
