@@ -23,3 +23,7 @@ catkin build
 echo "${YELLOW}Настройка окружения с помощью setup.bash...${NC}"
 source devel/setup.bash
 
+EOF
+
+# Оставляем терминал открытым после выполнения скрипта
+exec /bin/bash
