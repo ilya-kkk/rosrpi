@@ -2,13 +2,17 @@
 FROM arm64v8/ubuntu:focal
 
 # Устанавливаем необходимые системные зависимости
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y 
+
+RUN apt-get install -y \
     build-essential \
     cmake \
     git \
     curl \
     wget \
-    unzip \
+    unzip
+
+RUN apt-get install -y \
     libopencv-dev \
     python3-pip \
     python3-dev \
@@ -17,13 +21,17 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libopenblas-dev \
     liblapack-dev \
     libblas-dev \
-    libeigen3-dev \
+    libeigen3-dev
+
+RUN apt-get install -y \
     libprotobuf-dev \
     protobuf-compiler \
     libgoogle-glog-dev \
     libgflags-dev \
     liblmdb-dev \
-    libsnappy-dev \
+    libsnappy-dev
+
+RUN apt-get install -y \
     libopencv-core-dev \
     libopencv-highgui-dev \
     libopencv-imgproc-dev \
@@ -34,7 +42,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libopencv-calib3d-dev \
     libopencv-stitching-dev \
     libopencv-superres-dev \
-    libopencv-viz-dev \
+    libopencv-viz-dev
+
+RUN apt-get install -y \
     libopencv-ml-dev \
     libopencv-photo-dev \
     libopencv-shape-dev \
@@ -46,12 +56,14 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libopencv-ts-legacy-dev \
     libopencv-java-dev \
     libopencv-python-dev \
-    libopencv-doc \
-    libopencv-dev \
-    # Устанавливаем зависимости для GStreamer
+    libopencv-doc
+
+RUN apt-get install -y \
     autoconf \
     automake \
-    libtool \
+    libtool
+
+RUN apt-get install -y \
     gstreamer-1.0 \
     gstreamer1.0-dev \
     libgstreamer1.0-0 \
@@ -67,8 +79,10 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     gstreamer1.0-gl \
     gstreamer1.0-gtk3 \
     gstreamer1.0-qt5 \
-    gstreamer1.0-pulseaudio \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    gstreamer1.0-pulseaudio
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
 
 # Устанавливаем необходимые Python-библиотеки
 RUN pip3 install --upgrade pip && \
