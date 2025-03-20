@@ -3,6 +3,8 @@ version: "3.9"
 services:
   ros_rpi:
     image: ilya9kkk/ros_arm:camera
+    stdin_open: true  # Открывает stdin
+    tty: true         # Включает псевдотерминал
     container_name: ros_rpi
     privileged: true
     network_mode: "host"
@@ -21,5 +23,6 @@ services:
       - /dev:/dev
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
       - ${ROOT_DIR}/workspace:/workspace
+    command: /bin/bash
 
 
