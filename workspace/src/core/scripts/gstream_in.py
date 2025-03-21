@@ -5,11 +5,10 @@ import cv2
 import numpy as np
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-import subprocess
 import socket
 
 class GStreamerVideoReceiver:
-    def __init__(self):
+    def __init__(self, ip='127.0.0.1', port=5001):
         # Инициализация ROS ноды
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
         
@@ -19,44 +18,44 @@ class GStreamerVideoReceiver:
         # Публикуем изображения в топик /nn_image
         self.image_pub = rospy.Publisher('/nn_image', Image, queue_size=10)
         
+        self.ip = ip
+        self.port = port
+
         # Проверка доступности порта перед запуском GStreamer
-        if not self.is_port_open('127.0.0.1', 5001):
-            rospy.logerr("Не удалось подключиться к видеопотоку на 127.0.0.1:5001. Попробуйте позже.")
+        if not self.is_port_open():
+            rospy.logerr(f"Не удалось подключиться к видеопотоку на {self.ip}:{self.port}. Попробуйте позже.")
             return
 
-        # Запуск GStreamer для приема видеопотока
-        self.gstreamer_command = (
-            'gst-launch-1.0', 
-            'udpsrc', 
-            'address=127.0.0.1',  # IP адрес источника потока
-            'port=5001', 
-            'caps="application/x-rtp, media=video, payload=96"', 
-            '!', 
-            'rtph264depay', 
-            '!', 
-            'avdec_h264', 
-            '!', 
-            'videoconvert', 
-            '!', 
-            'appsink', 
-            'sync=false'
+        # GStreamer pipeline для получения видео
+        gst_pipeline = (
+            f"udpsrc address={self.ip} port={self.port} "
+            "! application/x-rtp, media=video, payload=96 "
+            "! rtph264depay "
+            "! avdec_h264 "
+            "! videoconvert "
+            "! appsink sync=false"
         )
 
-        # Запуск процесса GStreamer для захвата видео
-        self.gstreamer_process = subprocess.Popen(self.gstreamer_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        self.cap = cv2.VideoCapture(self.gstreamer_process.stdout)
+        # Используем cv2.VideoCapture с GStreamer
+        self.cap = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
 
-    def is_port_open(self, ip, port):
+        if not self.cap.isOpened():
+            rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
+            self.cap = None
+
+    def is_port_open(self):
         """Проверка доступности порта с использованием socket."""
         try:
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.settimeout(1)
-                s.connect((ip, port))
+            with socket.create_connection((self.ip, self.port), timeout=1):
                 return True
-        except socket.error:
+        except (socket.timeout, socket.error):
             return False
 
     def capture_and_publish(self):
+        if self.cap is None:
+            rospy.logerr("Камера не была успешно инициализирована.")
+            return
+
         while not rospy.is_shutdown():
             ret, frame = self.cap.read()
             if ret:
@@ -74,8 +73,9 @@ class GStreamerVideoReceiver:
 
 if __name__ == '__main__':
     try:
-        video_receiver = GStreamerVideoReceiver()
-        if video_receiver:  # Только если видеопоток доступен
+        ip, port = '127.0.0.1', 5001  # Можно вынести в параметры ROS
+        if GStreamerVideoReceiver(ip, port).is_port_open():
+            video_receiver = GStreamerVideoReceiver(ip, port)
             video_receiver.capture_and_publish()
     except rospy.ROSInterruptException:
         pass
