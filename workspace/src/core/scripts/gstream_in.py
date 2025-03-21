@@ -8,7 +8,7 @@ from cv_bridge import CvBridge
 import socket
 
 class GStreamerVideoReceiver:
-    def __init__(self, ip='127.0.0.1', port=5001):
+    def __init__(self, ip='192.168.0.108', port=5001):
         # Инициализация ROS ноды
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
         
@@ -73,7 +73,7 @@ class GStreamerVideoReceiver:
 
 if __name__ == '__main__':
     try:
-        ip, port = '127.0.0.1', 5001  # Можно вынести в параметры ROS
+        ip, port = '192.168.0.108', 5001  # Можно вынести в параметры ROS
         if GStreamerVideoReceiver(ip, port).is_port_open():
             video_receiver = GStreamerVideoReceiver(ip, port)
             video_receiver.capture_and_publish()

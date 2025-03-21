@@ -36,7 +36,7 @@ input_pipeline = (
 output_pipeline = (
     "appsrc ! videoconvert ! "
     "x264enc speed-preset=ultrafast tune=zerolatency ! "
-    "rtph264pay ! udpsink host=127.0.0.1 port=5001"
+    "rtph264pay ! udpsink host=192.168.0.108 port=5001"
 )
 
 # Открытие входного видеопотока через GStreamer

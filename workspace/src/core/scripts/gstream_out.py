@@ -27,7 +27,7 @@ class GStreamerImagePublisher:
             '!', 'videoconvert',
             '!', 'x264enc', 'tune=zerolatency', 'bitrate=500',
             '!', 'rtph264pay', 'pt=96',
-            '!', 'udpsink', 'host=127.0.0.1', 'port=5000'
+            '!', 'udpsink', 'host=192.168.0.108', 'port=5000'
         ]
 
         # Запускаем GStreamer в subprocess
