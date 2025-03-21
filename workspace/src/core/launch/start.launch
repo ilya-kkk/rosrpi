@@ -25,9 +25,21 @@
 
 
     <!-- Нода зрения -->
-    <node pkg="core" type="cv.py" name="cv"
+    <!-- <node pkg="core" type="cv.py" name="cv"
+        output="screen">
+    </node> -->
+
+
+        <!-- Отправка в нейронку -->
+    <node pkg="core" type="gstream_out.py" name="nn1_out"
         output="screen">
     </node>
+
+        <!-- Прием из нейронки -->
+    <node pkg="core" type="gstream_in.py" name="nn1_in"
+        output="screen">
+    </node>
+
 
     <!-- Нода руль -->
     <!-- <node pkg="core" type="controller.py" name="controller"
