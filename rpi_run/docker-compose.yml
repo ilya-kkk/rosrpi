@@ -1,6 +1,6 @@
 services:
   ros_rpi:
-    image: ilya9kkk/ros_arm:camera
+    image: ilya9kkk/ros_arm:nn
     container_name: ros_rpi
     privileged: true
     stdin_open: true         # Открывает stdin
