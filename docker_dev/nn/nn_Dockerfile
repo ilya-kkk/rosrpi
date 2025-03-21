@@ -1,15 +1,21 @@
 # Используем базовый образ Ubuntu 20.04 для архитектуры ARM64
 FROM arm64v8/ubuntu:focal
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Устанавливаем необходимые системные зависимости
 RUN apt-get update && apt-get upgrade -y 
 
+RUN apt-get install -y tzdata && \
+    ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+
+# Теперь можно устанавливать остальные пакеты
 RUN apt-get install -y build-essential  
 RUN apt-get install -y cmake  
 RUN apt-get install -y git  
 RUN apt-get install -y curl  
 RUN apt-get install -y wget  
-RUN apt-get install -y unzip  
+RUN apt-get install -y unzip
 
 RUN apt-get install -y \
     libopencv-dev \
