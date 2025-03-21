@@ -3,6 +3,8 @@ services:
     image: ilya9kkk/ros_arm:camera
     container_name: ros_rpi
     privileged: true
+    stdin_open: true         # Открывает stdin
+    tty: true                # Включает псевдотерминал
     network_mode: "host"
     ipc: "host"
     devices:
