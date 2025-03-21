@@ -6,7 +6,7 @@ echo "ROOT_DIR: $ROOT_DIR"
 echo "EXEC_PATH: $EXEC_PATH"
 
 cd $ROOT_DIR
-docker build -t ros_arm -f $ROOT_DIR/docker_dev/rpi_Dockerfile $ROOT_DIR \
+docker build -t ros_arm -f $ROOT_DIR/rpi/rpi_Dockerfile $ROOT_DIR \
                                   --network=host \
                                   
 cd $EXEC_PATH
