@@ -98,7 +98,8 @@ RUN pip3 install --upgrade pip && \
     matplotlib \
     numpy \
     opencv-python \
-    scikit-learn
+    scikit-learn \
+    ultralytics
 
 # Копируем локальный код в контейнер
 # COPY . /app

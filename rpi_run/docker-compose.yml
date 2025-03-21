@@ -23,4 +23,11 @@ services:
       - ${ROOT_DIR}/workspace:/workspace
     entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START.bash"]
 
+  nn1:
+    image: ilya9kkk/nn_arm:test
+    container_name: nn1
+    network_mode: "host"     # Используем сеть хоста
+    volumes:
+      - ${ROOT_DIR}/nn_ws:/nn_ws
+    entrypoint: ["/bin/bash", "-c", "python3 /nn_ws/yolo.py"]
 
