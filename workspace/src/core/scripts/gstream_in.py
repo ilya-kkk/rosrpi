@@ -6,6 +6,7 @@ import numpy as np
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import socket
+import time
 
 class GStreamerVideoReceiver:
     def __init__(self, ip='192.168.0.108', port=5001):
@@ -20,11 +21,11 @@ class GStreamerVideoReceiver:
         
         self.ip = ip
         self.port = port
-
-        # Проверка доступности порта перед запуском GStreamer
-        if not self.is_port_open():
-            rospy.logerr(f"Не удалось подключиться к видеопотоку на {self.ip}:{self.port}. Попробуйте позже.")
-            return
+        
+        # Ожидание доступности порта перед запуском GStreamer
+        while not self.is_port_open():
+            rospy.logwarn(f"Не удалось подключиться к {self.ip}:{self.port}. Повторная попытка через 1 секунду...")
+            time.sleep(1)
 
         # GStreamer pipeline для получения видео
         gst_pipeline = (
@@ -73,9 +74,7 @@ class GStreamerVideoReceiver:
 
 if __name__ == '__main__':
     try:
-        ip, port = '192.168.0.108', 5001  # Можно вынести в параметры ROS
-        if GStreamerVideoReceiver(ip, port).is_port_open():
-            video_receiver = GStreamerVideoReceiver(ip, port)
-            video_receiver.capture_and_publish()
+        video_receiver = GStreamerVideoReceiver('192.168.0.108', 5001)
+        video_receiver.capture_and_publish()
     except rospy.ROSInterruptException:
         pass
