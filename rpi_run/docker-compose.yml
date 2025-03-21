@@ -1,8 +1,6 @@
 services:
   ros_rpi:
     image: ilya9kkk/ros_arm:camera
-    # stdin_open: true  # Открывает stdin
-    # tty: true         # Включает псевдотерминал
     container_name: ros_rpi
     privileged: true
     network_mode: "host"
@@ -27,9 +25,8 @@ services:
     image: ilya9kkk/nn_arm:test
     container_name: nn1
     network_mode: "host"     # Используем сеть хоста
-    stdin_open: true  # Открывает stdin
-    tty: true         # Включает псевдотерминал
+    stdin_open: true         # Открывает stdin
+    tty: true                # Включает псевдотерминал
     volumes:
       - ${ROOT_DIR}/nn_ws:/nn_ws
-    entrypoint: ["/bin/bash", "-c", "python3 /nn_ws/yolo.py"]
-
+    command: /bin/bash -c "python3 /nn_ws/yolo.py; tail -f /dev/null"  # Запускает yolo.py и предотвращает завершение контейнера
