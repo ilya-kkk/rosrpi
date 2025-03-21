@@ -22,7 +22,7 @@ class GStreamerVideoReceiver:
             'gst-launch-1.0', 
             'udpsrc', 
             'address=127.0.0.1',  # IP адрес источника потока
-            'port=5000', 
+            'port=5001', 
             'caps="application/x-rtp, media=video, payload=96"', 
             '!', 
             'rtph264depay', 

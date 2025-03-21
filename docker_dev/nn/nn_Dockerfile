@@ -49,19 +49,13 @@ RUN apt-get install -y \
     libopencv-superres-dev \
     libopencv-viz-dev
 
-RUN apt-get install -y \
+    RUN apt-get update && apt-get install -y \
     libopencv-ml-dev \
     libopencv-photo-dev \
     libopencv-shape-dev \
     libopencv-videoio-dev \
     libopencv-videostab-dev \
-    libopencv-plot-dev \
-    libopencv-surface-android-dev \
-    libopencv-ts-dev \
-    libopencv-ts-legacy-dev \
-    libopencv-java-dev \
-    libopencv-python-dev \
-    libopencv-doc
+    libopencv-ts-dev
 
 RUN apt-get install -y \
     autoconf \
