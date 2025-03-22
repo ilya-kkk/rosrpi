@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 import cv2
-import torch
 import os
 import time
 import subprocess
 from ultralytics import YOLO
 
+# Загрузка модели YOLO (если модели нет в указанном пути, она будет скачана)
 model_path = "/nn_ws/yolo8n.pt"
 if not os.path.exists(model_path):
     print("Модель не найдена! Скачивание...")
@@ -12,9 +13,11 @@ if not os.path.exists(model_path):
 else:
     model = YOLO(model_path)
 
+# Классы, которые нас интересуют (например, человек, автомобиль, и т.д.)
 target_classes = [0, 2, 14, 15]
 
 def filter_detections(results, target_classes):
+    """Фильтрация обнаруженных объектов по целевым классам."""
     filtered = []
     boxes = results[0].boxes
     for box in boxes:
@@ -22,11 +25,14 @@ def filter_detections(results, target_classes):
             filtered.append(box)
     return filtered
 
+# Конвейер для приема видеопотока по UDP (порт 5000)
 input_pipeline = (
     "udpsrc port=5000 ! "
     "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
     "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
 )
+
+# Конвейер для отправки обработанного видео (на порт 5001)
 output_pipeline = (
     "appsrc name=mysrc caps=video/x-raw,format=BGR,width=640,height=480,framerate=30/1 ! "
     "videoconvert ! "
@@ -36,7 +42,7 @@ output_pipeline = (
 )
 
 def is_gstreamer_running():
-    """Проверяет, запущен ли процесс GStreamer."""
+    """Проверяет, запущен ли процесс GStreamer (gst-launch-1.0)."""
     try:
         result = subprocess.run(["pgrep", "gst-launch-1.0"], capture_output=True, text=True)
         return result.returncode == 0
@@ -45,7 +51,10 @@ def is_gstreamer_running():
         return False
 
 def open_video_stream():
-    """Попытка подключения к видеопотоку с проверкой GStreamer и переподключением каждую секунду."""
+    """
+    Попытка подключения к видеопотоку с проверкой работы GStreamer.
+    Если поток не доступен, повторяет попытку раз в секунду.
+    """
     while True:
         if not is_gstreamer_running():
             print("GStreamer не запущен. Ожидание...")
@@ -60,11 +69,13 @@ def open_video_stream():
         time.sleep(1)
 
 def main():
+    # Подключаемся к входному видеопотоку с повторными попытками
     cap = open_video_stream()
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
 
+    # Инициализируем VideoWriter для отправки обработанного видео
     out = cv2.VideoWriter(output_pipeline, cv2.CAP_GSTREAMER, 0, fps, (width, height), True)
     if not out.isOpened():
         print("Ошибка открытия выходного видеопотока")
@@ -80,9 +91,11 @@ def main():
             cap = open_video_stream()
             continue
 
+        # Применяем модель YOLO для обнаружения объектов
         results = model(frame)
         filtered_boxes = filter_detections(results, target_classes)
 
+        # Рисуем рамки и подписи для обнаруженных объектов
         for box in filtered_boxes:
             x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
             conf = box.conf.item()
@@ -92,6 +105,7 @@ def main():
             cv2.putText(frame, label, (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
+        # Отправляем обработанный кадр через выходной GStreamer pipeline
         out.write(frame)
 
     cap.release()
