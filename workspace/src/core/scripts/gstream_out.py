@@ -3,7 +3,7 @@
 import rospy
 import cv2
 import numpy as np
-from sensor_msgs.msg import CompressedImage
+from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import subprocess
 import atexit
@@ -17,7 +17,7 @@ class GStreamerImagePublisher:
         self.bridge = CvBridge()
         
         # Подписываемся на топик /camera1/image_raw
-        self.image_sub = rospy.Subscriber('/camera1/image_raw/compressed', CompressedImage, self.image_callback)
+        self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
 
         # GStreamer pipeline для передачи видео через UDP
         self.gstreamer_command = [

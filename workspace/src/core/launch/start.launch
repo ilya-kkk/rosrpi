@@ -16,8 +16,6 @@
         <param name="image_height" value="480" />
         <param name="pixel_format" value="yuyv" />
         <param name="camera_frame_id" value="usb_cam" />
-
-        <remap from="/usb_cam/image_raw" to="/camera1" />
     </node>
 
     <!-- Отлично, у нас есть /cmd_vel для команд управления и /camera1/image с картиной с камеры -->
