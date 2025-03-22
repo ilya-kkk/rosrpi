@@ -4,8 +4,6 @@ import cv2
 import numpy as np
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-import subprocess
-import atexit
 
 class GStreamerImagePublisher:
     def __init__(self):
@@ -18,42 +16,33 @@ class GStreamerImagePublisher:
         # Подписка на топик с изображениями (например, с USB-камеры)
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
 
-        # GStreamer pipeline для отправки видео по UDP (отправка на порт 5000)
-        self.gstreamer_command = [
-            'gst-launch-1.0',
-            'appsrc', 'format=time', 'is-live=true', 'block=true', 'do-timestamp=true',
-            'caps=video/x-raw,format=BGR,width=640,height=480,framerate=30/1',
-            '!', 'videoconvert',
-            '!', 'x264enc', 'speed-preset=ultrafast', 'tune=zerolatency', 'bitrate=500',
-            '!', 'rtph264pay', 'config-interval=1', 'pt=96',
-            '!', 'udpsink', 'host=127.0.0.1', 'port=5000'
-        ]
+        # GStreamer pipeline для отправки видео по UDP
+        self.output_pipeline = (
+            "appsrc ! videoconvert ! "
+            "x264enc speed-preset=ultrafast tune=zerolatency bitrate=500 ! "
+            "rtph264pay config-interval=1 pt=96 ! "
+            "udpsink host=127.0.0.1 port=5000"
+        )
 
-        # Запуск GStreamer в отдельном процессе с передачей данных через stdin
-        self.gstreamer_process = subprocess.Popen(self.gstreamer_command, stdin=subprocess.PIPE)
+        # Создаем GStreamer VideoWriter
+        self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
 
-        # Обеспечим корректное завершение процесса при выходе из программы
-        atexit.register(self.cleanup)
+        if not self.out.isOpened():
+            rospy.logerr("Ошибка открытия GStreamer VideoWriter")
 
     def image_callback(self, msg):
         try:
-            # Преобразуем ROS Image в формат OpenCV (BGR)
+            # Преобразуем ROS Image в OpenCV BGR
             cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             
             # Изменяем размер изображения до 640x480, чтобы соответствовать настройкам pipeline
             cv_image = cv2.resize(cv_image, (640, 480))
             
-            # Отправляем данные в stdin процесса GStreamer
-            self.gstreamer_process.stdin.write(cv_image.tobytes())
-            self.gstreamer_process.stdin.flush()
+            # Отправляем изображение в GStreamer pipeline
+            self.out.write(cv_image)
+
         except Exception as e:
             rospy.logerr(f"Ошибка при обработке изображения: {e}")
-
-    def cleanup(self):
-        """Корректное завершение процесса GStreamer при остановке ноды."""
-        if self.gstreamer_process:
-            self.gstreamer_process.terminate()
-            self.gstreamer_process.wait()
 
 if __name__ == '__main__':
     try:
