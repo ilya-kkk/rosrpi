@@ -24,13 +24,15 @@ def filter_detections(results, target_classes):
 
 input_pipeline = (
     "udpsrc port=5000 ! "
-    "application/x-rtp, encoding-name=H264 ! "
-    "rtph264depay ! avdec_h264 ! videoconvert ! appsink"
+    "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
+    "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
 )
 output_pipeline = (
-    "appsrc ! videoconvert ! "
+    "appsrc name=mysrc caps=video/x-raw,format=BGR,width=640,height=480,framerate=30/1 ! "
+    "videoconvert ! "
     "x264enc speed-preset=ultrafast tune=zerolatency ! "
-    "rtph264pay ! udpsink host=127.0.0.1 port=5001"
+    "rtph264pay config-interval=1 pt=96 ! "
+    "udpsink host=127.0.0.1 port=5001"
 )
 
 def is_gstreamer_running():

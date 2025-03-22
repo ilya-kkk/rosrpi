@@ -35,7 +35,7 @@ class GStreamerVideoReceiver:
         # GStreamer pipeline для получения видео
         gst_pipeline = (
             f"udpsrc address={self.ip} port={self.port} "
-            "! application/x-rtp, media=video, payload=96 "
+            "! application/x-rtp, media=video, payload=96, encoding-name=H264 "
             "! rtph264depay "
             "! avdec_h264 "
             "! videoconvert "
