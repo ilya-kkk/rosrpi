@@ -24,11 +24,11 @@ services:
     entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START.bash"]
 
   nn1:
-    image: ilya9kkk/nn_arm:test
+    image: ilya9kkk/nn_arm:latest
     container_name: nn1
     network_mode: "host"     # Используем сеть хоста
     stdin_open: true         # Открывает stdin
     tty: true                # Включает псевдотерминал
     volumes:
       - ${ROOT_DIR}/nn_ws:/nn_ws
-    # command: /bin/bash -c "python3 /nn_ws/yolo.py; tail -f /dev/null"  # Запускает yolo.py и предотвращает завершение контейнера
+    entrypoint: ["/bin/bash", "-c", "python3 /nn_ws/yolo.py; tail -f /dev/null"]

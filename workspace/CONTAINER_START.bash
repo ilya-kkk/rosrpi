@@ -23,7 +23,7 @@ catkin build
 echo "${YELLOW}Настройка окружения с помощью setup.bash...${NC}"
 source devel/setup.bash
 
-# roslaunch core start.launch
+roslaunch core start.launch
 EOF
 
 # Оставляем терминал открытым после выполнения скрипта
