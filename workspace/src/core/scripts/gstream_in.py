@@ -9,7 +9,7 @@ import socket
 import time
 
 class GStreamerVideoReceiver:
-    def __init__(self, ip='192.168.0.108', port=5001):
+    def __init__(self, ip='127.0.0.1', port=5001):
         # Инициализация ROS ноды
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
         
@@ -74,7 +74,7 @@ class GStreamerVideoReceiver:
 
 if __name__ == '__main__':
     try:
-        video_receiver = GStreamerVideoReceiver('192.168.0.108', 5001)
+        video_receiver = GStreamerVideoReceiver('127.0.0.1', 5001)
         video_receiver.capture_and_publish()
     except rospy.ROSInterruptException:
         pass
