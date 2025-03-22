@@ -2,22 +2,19 @@ import cv2
 import torch
 import os
 import time
+import subprocess
 from ultralytics import YOLO
 
-
 model_path = "/nn_ws/yolo8n.pt"
-
 if not os.path.exists(model_path):
     print("Модель не найдена! Скачивание...")
     model = YOLO('yolo8n.pt')
 else:
     model = YOLO(model_path)
 
-# Список интересующих классов (ID для COCO)
 target_classes = [0, 2, 14, 15]
 
 def filter_detections(results, target_classes):
-    """Фильтрует обнаружения, оставляя только интересующие классы."""
     filtered = []
     boxes = results[0].boxes
     for box in boxes:
@@ -25,7 +22,6 @@ def filter_detections(results, target_classes):
             filtered.append(box)
     return filtered
 
-# GStreamer пайплайны
 input_pipeline = (
     "udpsrc port=5000 ! "
     "application/x-rtp, encoding-name=H264 ! "
@@ -37,9 +33,23 @@ output_pipeline = (
     "rtph264pay ! udpsink host=127.0.0.1 port=5001"
 )
 
+def is_gstreamer_running():
+    """Проверяет, запущен ли процесс GStreamer."""
+    try:
+        result = subprocess.run(["pgrep", "gst-launch-1.0"], capture_output=True, text=True)
+        return result.returncode == 0
+    except Exception as e:
+        print(f"Ошибка при проверке GStreamer: {e}")
+        return False
+
 def open_video_stream():
-    """Попытка подключения к видеопотоку с повторными попытками каждую секунду."""
+    """Попытка подключения к видеопотоку с проверкой GStreamer и переподключением каждую секунду."""
     while True:
+        if not is_gstreamer_running():
+            print("GStreamer не запущен. Ожидание...")
+            time.sleep(1)
+            continue
+
         cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
         if cap.isOpened():
             print("Видеопоток успешно подключен")
@@ -49,8 +59,6 @@ def open_video_stream():
 
 def main():
     cap = open_video_stream()
-
-    # Получение параметров видеопотока
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
@@ -62,7 +70,6 @@ def main():
         return
 
     print("Начало обработки видеопотока...")
-
     while True:
         ret, frame = cap.read()
         if not ret:

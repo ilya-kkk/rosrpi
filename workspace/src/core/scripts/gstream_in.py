@@ -7,6 +7,8 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import socket
 import time
+import os
+import subprocess
 
 class GStreamerVideoReceiver:
     def __init__(self, ip='127.0.0.1', port=5001):
@@ -21,11 +23,14 @@ class GStreamerVideoReceiver:
         
         self.ip = ip
         self.port = port
-        
+
         # Ожидание доступности порта перед запуском GStreamer
         while not self.is_port_open():
             rospy.logwarn(f"Не удалось подключиться к {self.ip}:{self.port}. Повторная попытка через 1 секунду...")
             time.sleep(1)
+        
+        # Проверка и запуск GStreamer
+        self.ensure_gstreamer_running()
 
         # GStreamer pipeline для получения видео
         gst_pipeline = (
@@ -51,6 +56,23 @@ class GStreamerVideoReceiver:
                 return True
         except (socket.timeout, socket.error):
             return False
+
+    def is_gstreamer_running(self):
+        """Проверка, запущен ли процесс GStreamer."""
+        try:
+            # Проверяем процессы с помощью командной строки
+            output = subprocess.check_output(["pgrep", "-f", "gstreamer"], stderr=subprocess.PIPE)
+            return len(output.strip()) > 0
+        except subprocess.CalledProcessError:
+            return False
+
+    def ensure_gstreamer_running(self):
+        """Обеспечиваем, что процесс GStreamer запущен. Повторная попытка, если нет."""
+        while not self.is_gstreamer_running():
+            rospy.logwarn("GStreamer не запущен. Ожидание...")
+            time.sleep(1)
+        
+        rospy.loginfo("GStreamer процесс успешно запущен.")
 
     def capture_and_publish(self):
         if self.cap is None:
