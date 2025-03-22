@@ -1,10 +1,17 @@
 import cv2
 import torch
+import os
 import time
 from ultralytics import YOLO
 
-# Загрузка модели YOLO11n
-model = YOLO('yolo11n.pt')
+
+model_path = "/nn_ws/yolo8n.pt"
+
+if not os.path.exists(model_path):
+    print("Модель не найдена! Скачивание...")
+    model = YOLO('yolo8n.pt')
+else:
+    model = YOLO(model_path)
 
 # Список интересующих классов (ID для COCO)
 target_classes = [0, 2, 14, 15]
