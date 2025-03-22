@@ -78,12 +78,13 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
                                             ros-noetic-image-proc
 
 RUN apt-get update && apt-get install -y \
-                libopencv-dev libx11-dev liblapack-dev libv4l-dev libzbar-dev libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
-                libeigen3-dev
-
-RUN pip install numpy scikit-image 
-RUN pip install pillow 
-RUN pip install opencv-contrib-python
+        libopencv-dev libx11-dev liblapack-dev libv4l-dev libzbar-dev \
+        libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
+        libeigen3-dev \
+        python3-opencv gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
+        
+RUN pip install numpy scikit-image pillow
+                                        
 #RUN sudo sh \
     #-c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
     #    > /etc/apt/sources.list.d/ros-latest.list'
