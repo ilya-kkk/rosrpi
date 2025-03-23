@@ -35,13 +35,11 @@ class GStreamerVideoReceiver:
 
         # GStreamer pipeline для получения видео
         gst_pipeline = (
-            f"udpsrc address={self.ip} port={self.port} "
-            "! application/x-rtp, media=video, payload=96, encoding-name=H264 "
-            "! rtph264depay "
-            "! avdec_h264 "
-            "! videoconvert "
-            "! appsink sync=false"
+            "udpsrc address=127.0.0.1 port=5001 ! "
+            "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
+            "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
         )
+
 
         # Используем cv2.VideoCapture с GStreamer
         while True:

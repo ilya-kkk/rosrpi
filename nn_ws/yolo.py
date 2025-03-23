@@ -36,10 +36,11 @@ input_pipeline = (
 output_pipeline = (
     "appsrc name=mysrc caps=video/x-raw,format=BGR,width=640,height=480,framerate=30/1 ! "
     "videoconvert ! "
-    "x264enc speed-preset=ultrafast tune=zerolatency ! "
+    "x264enc speed-preset=ultrafast tune=zerolatency bitrate=500 ! "
     "rtph264pay config-interval=1 pt=96 ! "
     "udpsink host=127.0.0.1 port=5001"
 )
+
 
 def is_video_stream_available():
     """
