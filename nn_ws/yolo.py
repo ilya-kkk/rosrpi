@@ -64,17 +64,23 @@ def open_video_stream():
         #     print("Видеопоток недоступен. Ожидание 1 секунды...")
         #     time.sleep(1)
         #     continue
-
-        cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
-        if cap.isOpened():
-            print("\033[0;32m Видеопоток успешно подключен \033[0m")
+        # cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
+        # if cap.isOpened():
+        #     print("\033[0;32m Видеопоток успешно подключен \033[0m")
+        #     return cap
+        # print("\033[0;31m Ошибка подключения. Повторная попытка через 1 секунду...\033[0m")
+        # time.sleep(1)
+        try:
+            cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
             return cap
-        print("\033[0;31m Ошибка подключения. Повторная попытка через 1 секунду...\033[0m")
-        time.sleep(1)
+        except Exception as e:
+            print(f"Ошибка при обработке изображения: {e}")
+
 
 def main():
     # Подключаемся к входному видеопотоку с повторными попытками
     cap = open_video_stream()
+    
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS) or 30
