@@ -79,7 +79,8 @@ def open_video_stream():
 
 def main():
     # Подключаемся к входному видеопотоку с повторными попытками
-    cap = open_video_stream()
+    # cap = open_video_stream()
+    cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
     
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
