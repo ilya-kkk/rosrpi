@@ -30,7 +30,7 @@ class GStreamerVideoReceiver:
         #     time.sleep(1)
         
         # Проверка и запуск GStreamer
-        self.ensure_gstreamer_running()
+        # self.ensure_gstreamer_running()
 
         # GStreamer pipeline для получения видео
         gst_pipeline = (
@@ -88,7 +88,8 @@ class GStreamerVideoReceiver:
                     
                     # Публикуем изображение в топик /nn_image
                     self.image_pub.publish(ros_image)
-                    
+                    rospy.logerr("ЗАЕБИСЬ ОНО ПАШЕТ!!!")
+
                 except Exception as e:
                     rospy.logerr(f"Ошибка при преобразовании изображения: {e}")
             else:
