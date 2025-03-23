@@ -77,6 +77,7 @@ def open_video_stream():
             print(f"Ошибка при обработке изображения: {e}")
 
 
+
 def main():
     # Подключаемся к входному видеопотоку с повторными попытками
     # cap = open_video_stream()
@@ -100,14 +101,17 @@ def main():
     print("Начало обработки видеопотока...")
     while True:
         ret, frame = cap.read()
-        if not ret:
-            print("Поток потерян. Переподключение...")
-            cap.release()
-            cap = open_video_stream()
-            continue
+        # if not ret:
+        #     print("Поток потерян. Переподключение...")
+        #     cap.release()
+        #     cap = open_video_stream()
+        #     continue
 
         # Применяем модель YOLO для обнаружения объектов
-        results = model(frame)
+        try:
+            results = model(frame)
+        except Exception as e:
+            print(f"Ошибка при инференсе: {e}")
         filtered_boxes = filter_detections(results, target_classes)
 
         # Рисуем рамки и подписи для обнаруженных объектов
