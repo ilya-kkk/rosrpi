@@ -107,6 +107,7 @@ def main():
 
         # Отправляем обработанный кадр через выходной GStreamer pipeline
         out.write(frame)
+        print("Кадр обработан и отправлен обратно")
 
     cap.release()
     out.release()
