@@ -12,7 +12,7 @@ import subprocess
 
 class GStreamerVideoReceiver:
     def __init__(self, ip='127.0.0.1', port=5001):
-        rospy.logerr("Из нейронки в рос инитится")
+        rospy.logwarn("Из нейронки в рос инитится")
         # Инициализация ROS ноды
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
         
@@ -48,12 +48,12 @@ class GStreamerVideoReceiver:
             self.cap = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
             if self.cap.isOpened():
                 break  # Выходим из цикла, если видеопоток успешно открыт
-            rospy.logerr("Ошибка: Не удалось открыть видеопоток. Повторная попытка...")
+            rospy.logwarn("Ошибка: Не удалось открыть видеопоток. Повторная попытка...")
 
         # if not self.cap.isOpened():
         #     rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
         #     self.cap = None
-        rospy.logerr("Из нейронки в рос заинитилось")
+        rospy.logwarn("Из нейронки в рос заинитилось")
 
     def is_port_open(self):
         """Проверка доступности порта с использованием socket."""
@@ -94,10 +94,10 @@ class GStreamerVideoReceiver:
                     
                 # Публикуем изображение в топик /nn_image
                 self.image_pub.publish(ros_image)
-                rospy.logerr("ЗАЕБИСЬ ОНО ПАШЕТ!!!")
+                rospy.logwarn("ЗАЕБИСЬ ОНО ПАШЕТ!!!")
 
             except Exception as e:
-                    rospy.logerr(f"Ошибка при преобразовании изображения: {e}")
+                    rospy.logwarn(f"Ошибка при преобразовании изображения: {e}")
 
 if __name__ == '__main__':
     try:
