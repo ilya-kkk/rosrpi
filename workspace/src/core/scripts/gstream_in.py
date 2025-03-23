@@ -25,9 +25,9 @@ class GStreamerVideoReceiver:
         self.port = port
 
         # Ожидание доступности порта перед запуском GStreamer
-        while not self.is_port_open():
-            rospy.logwarn(f"Не удалось подключиться к {self.ip}:{self.port}. Повторная попытка через 1 секунду...")
-            time.sleep(1)
+        # while not self.is_port_open():
+        #     rospy.logwarn(f"Не удалось подключиться к {self.ip}:{self.port}. Повторная попытка через 1 секунду...")
+        #     time.sleep(1)
         
         # Проверка и запуск GStreamer
         self.ensure_gstreamer_running()
@@ -45,9 +45,9 @@ class GStreamerVideoReceiver:
         # Используем cv2.VideoCapture с GStreamer
         self.cap = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
 
-        if not self.cap.isOpened():
-            rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
-            self.cap = None
+        # if not self.cap.isOpened():
+        #     rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
+        #     self.cap = None
 
     def is_port_open(self):
         """Проверка доступности порта с использованием socket."""
@@ -75,13 +75,13 @@ class GStreamerVideoReceiver:
         rospy.loginfo("GStreamer процесс успешно запущен.")
 
     def capture_and_publish(self):
-        if self.cap is None:
-            rospy.logerr("Камера не была успешно инициализирована.")
-            return
+        # if self.cap is None:
+        #     rospy.logerr("Камера не была успешно инициализирована.")
+        #     return
 
         while not rospy.is_shutdown():
             ret, frame = self.cap.read()
-            if ret:
+            if True:
                 try:
                     # Преобразуем кадр в формат ROS Image
                     ros_image = self.bridge.cv2_to_imgmsg(frame, "bgr8")
