@@ -12,6 +12,7 @@ import subprocess
 
 class GStreamerVideoReceiver:
     def __init__(self, ip='127.0.0.1', port=5001):
+        rospy.logerr("Из нейронки в рос инитится")
         # Инициализация ROS ноды
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
         
@@ -43,7 +44,11 @@ class GStreamerVideoReceiver:
         )
 
         # Используем cv2.VideoCapture с GStreamer
-        self.cap = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
+        while True:
+            self.cap = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
+            if self.cap.isOpened():
+                break  # Выходим из цикла, если видеопоток успешно открыт
+            rospy.logerr("Ошибка: Не удалось открыть видеопоток. Повторная попытка...")
 
         # if not self.cap.isOpened():
         #     rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
