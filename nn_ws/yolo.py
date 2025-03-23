@@ -2,7 +2,7 @@
 import cv2
 import os
 import time
-import subprocess
+import socket
 from ultralytics import YOLO
 
 # Загрузка модели YOLO (если модели нет в указанном пути, она будет скачана)
@@ -13,7 +13,7 @@ if not os.path.exists(model_path):
 else:
     model = YOLO(model_path)
 
-# Классы, которые нас интересуют (например, человек, автомобиль, и т.д.)
+# Целевые классы для обнаружения (например, человек, автомобиль, и т.д.)
 target_classes = [0, 2, 14, 15]
 
 def filter_detections(results, target_classes):
@@ -25,14 +25,14 @@ def filter_detections(results, target_classes):
             filtered.append(box)
     return filtered
 
-# Конвейер для приема видеопотока по UDP (порт 5000)
+# GStreamer pipeline для приема видеопотока по UDP (порт 5000)
 input_pipeline = (
     "udpsrc port=5000 ! "
     "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
     "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
 )
 
-# Конвейер для отправки обработанного видео (на порт 5001)
+# GStreamer pipeline для отправки обработанного видео (на порт 5001)
 output_pipeline = (
     "appsrc name=mysrc caps=video/x-raw,format=BGR,width=640,height=480,framerate=30/1 ! "
     "videoconvert ! "
@@ -41,23 +41,27 @@ output_pipeline = (
     "udpsink host=127.0.0.1 port=5001"
 )
 
-def is_gstreamer_running():
-    """Проверяет, запущен ли процесс GStreamer (gst-launch-1.0)."""
-    try:
-        result = subprocess.run(["pgrep", "gst-launch-1.0"], capture_output=True, text=True)
-        return result.returncode == 0
-    except Exception as e:
-        print(f"Ошибка при проверке GStreamer: {e}")
+def is_video_stream_available():
+    """
+    Пытается открыть видеопоток через GStreamer и прочитать один кадр.
+    Если кадр получен – возвращает True, иначе – False.
+    """
+    cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
+    if not cap.isOpened():
+        cap.release()
         return False
+    ret, frame = cap.read()
+    cap.release()
+    return ret and frame is not None
 
 def open_video_stream():
     """
-    Попытка подключения к видеопотоку с проверкой работы GStreamer.
-    Если поток не доступен, повторяет попытку раз в секунду.
+    Попытка подключения к видеопотоку с проверкой через попытку открытия VideoCapture.
+    Если поток недоступен, повторяет попытку раз в секунду.
     """
     while True:
-        if not is_gstreamer_running():
-            print("GStreamer не запущен. Ожидание...")
+        if not is_video_stream_available():
+            print("Видеопоток недоступен. Ожидание 1 секунды...")
             time.sleep(1)
             continue
 
@@ -107,7 +111,7 @@ def main():
 
         # Отправляем обработанный кадр через выходной GStreamer pipeline
         out.write(frame)
-        print("\033[0;32m Кадр обработан и отправлен обратно, гойда !!! \033[0m")
+        print("\033[0;32mКадр обработан и отправлен обратно!\033[0m")
 
     cap.release()
     out.release()
