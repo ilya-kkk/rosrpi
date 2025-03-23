@@ -87,10 +87,10 @@ def main():
 
     # Инициализируем VideoWriter для отправки обработанного видео
     out = cv2.VideoWriter(output_pipeline, cv2.CAP_GSTREAMER, 0, fps, (width, height), True)
-    if not out.isOpened():
-        print("Ошибка открытия выходного видеопотока")
-        cap.release()
-        return
+    # if not out.isOpened():
+    #     print("Ошибка открытия выходного видеопотока")
+    #     cap.release()
+    #     return
 
     print("Начало обработки видеопотока...")
     while True:
