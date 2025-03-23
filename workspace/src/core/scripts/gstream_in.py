@@ -48,6 +48,7 @@ class GStreamerVideoReceiver:
         # if not self.cap.isOpened():
         #     rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
         #     self.cap = None
+        rospy.logerr("Из нейронки в рос заинитилось")
 
     def is_port_open(self):
         """Проверка доступности порта с использованием socket."""
@@ -81,19 +82,17 @@ class GStreamerVideoReceiver:
 
         while not rospy.is_shutdown():
             ret, frame = self.cap.read()
-            if True:
-                try:
-                    # Преобразуем кадр в формат ROS Image
-                    ros_image = self.bridge.cv2_to_imgmsg(frame, "bgr8")
+    
+            try:
+                # Преобразуем кадр в формат ROS Image
+                ros_image = self.bridge.cv2_to_imgmsg(frame, "bgr8")
                     
-                    # Публикуем изображение в топик /nn_image
-                    self.image_pub.publish(ros_image)
-                    rospy.logerr("ЗАЕБИСЬ ОНО ПАШЕТ!!!")
+                # Публикуем изображение в топик /nn_image
+                self.image_pub.publish(ros_image)
+                rospy.logerr("ЗАЕБИСЬ ОНО ПАШЕТ!!!")
 
-                except Exception as e:
+            except Exception as e:
                     rospy.logerr(f"Ошибка при преобразовании изображения: {e}")
-            else:
-                rospy.logwarn("Не удалось захватить кадр!")
 
 if __name__ == '__main__':
     try:
