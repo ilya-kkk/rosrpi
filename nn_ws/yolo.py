@@ -60,16 +60,16 @@ def open_video_stream():
     Если поток недоступен, повторяет попытку раз в секунду.
     """
     while True:
-        if not is_video_stream_available():
-            print("Видеопоток недоступен. Ожидание 1 секунды...")
-            time.sleep(1)
-            continue
+        # if not is_video_stream_available():
+        #     print("Видеопоток недоступен. Ожидание 1 секунды...")
+        #     time.sleep(1)
+        #     continue
 
         cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
         if cap.isOpened():
-            print("Видеопоток успешно подключен")
+            print("\033[0;32m Видеопоток успешно подключен \033[0m")
             return cap
-        print("Ошибка подключения. Повторная попытка через 1 секунду...")
+        print("\033[0;31m Ошибка подключения. Повторная попытка через 1 секунду...\033[0m")
         time.sleep(1)
 
 def main():
@@ -111,7 +111,7 @@ def main():
 
         # Отправляем обработанный кадр через выходной GStreamer pipeline
         out.write(frame)
-        print("\033[0;32mКадр обработан и отправлен обратно!\033[0m")
+        print("\033[0;32m Кадр обработан и отправлен обратно!\033[0m")
 
     cap.release()
     out.release()
