@@ -25,7 +25,7 @@ class GStreamerImagePublisher:
         )
 
         # Создаем GStreamer VideoWriter
-        # self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
+        self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
 
         if not self.out.isOpened():
             rospy.logerr("Ошибка открытия GStreamer VideoWriter")
@@ -39,7 +39,7 @@ class GStreamerImagePublisher:
             cv_image = cv2.resize(cv_image, (640, 480))
             
             # Отправляем изображение в GStreamer pipeline
-            cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True).write(cv_image)
+            self.out.write(cv_image)
 
         except Exception as e:
             rospy.logerr(f"Ошибка при обработке изображения: {e}")
