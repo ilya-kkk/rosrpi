@@ -9,9 +9,7 @@ class GStreamerImagePublisher:
     def __init__(self):
         rospy.init_node('gstreamer_image_publisher', anonymous=True)
         self.bridge = CvBridge()
-
-        self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
-
+        # Сначала запускаем гстример 
         self.output_pipeline = (
             "appsrc ! videoconvert ! "
             "x264enc speed-preset=ultrafast tune=zerolatency bitrate=500 ! "
@@ -25,7 +23,10 @@ class GStreamerImagePublisher:
             rospy.logerr("Ошибка открытия GStreamer VideoWriter")
             self.out = None  # Обнуляем переменную, чтобы не использовать нерабочий объект
         else:
-            rospy.logwarn("УСПЕШНО открыт GStreamer VideoWriter")
+            # Потом инитим подпищика, когда уже открыт гстример, чтобы колбек не срабатывал раньше времени 
+            self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
+            rospy.logwarn("УСПЕШНО открыт GStreamer VideoWriter и запущен subscriber")
+
 
     def image_callback(self, msg):
         try:
@@ -37,6 +38,7 @@ class GStreamerImagePublisher:
             cv_image = cv2.resize(cv_image, (640, 480))
             
             self.out.write(cv_image)
+            rospy.logwarn("УСПЕШНО отправлен кадр")
 
         except Exception as e:
             rospy.logerr(f"Ошибка при обработке изображения: {e}")
