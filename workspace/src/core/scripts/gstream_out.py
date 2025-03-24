@@ -11,8 +11,10 @@ class GStreamerImagePublisher:
         self.bridge = CvBridge()
         # Сначала запускаем гстример 
         self.output_pipeline = (
-            "appsrc !  decodebin ! videoconvert ! x264enc tune=zerolatency ! rtph264pay ! udpsink host=localhost port=5000"
+            # "appsrc !  decodebin ! videoconvert ! x264enc tune=zerolatency ! rtph264pay ! udpsink host=localhost port=5000"
+            "appsrc ! x264enc ! video/x-h264, stream-format=byte-stream ! h264parse ! rtph264depay ! udpsink port=5005 host=127.0.0.1"
         )
+    
 
         self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
 
