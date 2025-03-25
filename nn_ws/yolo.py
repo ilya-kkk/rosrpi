@@ -28,9 +28,12 @@ def filter_detections(results, target_classes):
 # GStreamer pipeline для приема видеопотока по UDP (порт 5000)
 input_pipeline = (
     # "udpsrc port=5000 ! application/x-rtp,media=video,clock-rate=90000,encoding-name=H264,payload=96 ! rtph264depay ! avdec_h264 ! appsink sync=false"
-"udpsrc port=5005 host=127.0.0.1 ! "
-  "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 !" 
-  "rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink"
+# "udpsrc port=5005 host=127.0.0.1 ! "
+#   "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 !" 
+#   "rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink"
+    "udpsrc port=5000 ! "
+    "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
+    "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
 )
 
 # GStreamer pipeline для отправки обработанного видео (на порт 5001)
