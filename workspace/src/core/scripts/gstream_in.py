@@ -39,7 +39,7 @@ class GStreamerVideoReceiver:
         #     "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
         #     "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
         #     )
-        input_pipeline = 'udpsrc port=5000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! appsink'
+        input_pipeline = 'udpsrc port=5005 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! appsink'
 
 
         # Используем cv2.VideoCapture с GStreamer
