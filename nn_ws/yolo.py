@@ -81,7 +81,7 @@ def open_video_stream():
         # print("\033[0;31m Ошибка подключения. Повторная попытка через 1 секунду...\033[0m")
         # time.sleep(1)
         try:
-            cap = cv2.VideoWriter(output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
+            cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
             return cap
         except Exception as e:
             print(f"Ошибка при обработке изображения: {e}")

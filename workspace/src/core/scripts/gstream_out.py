@@ -25,23 +25,23 @@ class GStreamerImagePublisher:
 
         self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
-        rospy.logwarn("УСПЕШНО открыт GStreamer VideoWriter и запущен subscriber")
+        rospy.logwarn("OUT УСПЕШНО открыт GStreamer VideoWriter и запущен subscriber")
 
 
     def image_callback(self, msg):
         try:
             if self.out is None:  # Проверяем, что self.out инициализирован
-                rospy.logwarn("GStreamer VideoWriter не был инициализирован, пропускаем кадр.")
+                rospy.logwarn("OUT GStreamer VideoWriter не был инициализирован, пропускаем кадр.")
                 return
             
             cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             cv_image = cv2.resize(cv_image, (640, 480))
             
             self.out.write(cv_image)
-            # rospy.logwarn("УСПЕШНО отправлен кадр")
+            rospy.logwarn("OUT УСПЕШНО отправлен кадр")
 
         except Exception as e:
-            rospy.logerr(f"Ошибка при обработке изображения: {e}")
+            rospy.logerr(f"OUT Ошибка при обработке изображения: {e}")
 
 if __name__ == '__main__':
     try:

@@ -12,7 +12,7 @@ import subprocess
 
 class GStreamerVideoReceiver:
     def __init__(self, ip='127.0.0.1', port=5001):
-        rospy.logwarn("Из нейронки в рос инитится")
+        rospy.logwarn("IN инитится")
         # Инициализация ROS ноды
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
         
@@ -47,12 +47,12 @@ class GStreamerVideoReceiver:
             self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
             if self.cap.isOpened():
                 break  # Выходим из цикла, если видеопоток успешно открыт
-            rospy.logwarn("Ошибка: Не удалось открыть видеопоток. Повторная попытка...")
+            rospy.logwarn("IN Ошибка: Не удалось открыть видеопоток. Повторная попытка...")
 
         # if not self.cap.isOpened():
         #     rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
         #     self.cap = None
-        rospy.logwarn("Из нейронки в рос заинитилось")
+        rospy.logwarn("IN Из нейронки в рос заинитилось")
 
     def is_port_open(self):
         """Проверка доступности порта с использованием socket."""
@@ -74,10 +74,10 @@ class GStreamerVideoReceiver:
     def ensure_gstreamer_running(self):
         """Обеспечиваем, что процесс GStreamer запущен. Повторная попытка, если нет."""
         while not self.is_gstreamer_running():
-            rospy.logwarn("GStreamer не запущен. Ожидание...")
+            rospy.logwarn("IN GStreamer не запущен. Ожидание...")
             time.sleep(1)
         
-        rospy.loginfo("GStreamer процесс успешно запущен.")
+        rospy.loginfo("IN GStreamer процесс успешно запущен.")
 
     def capture_and_publish(self):
         # if self.cap is None:
@@ -93,10 +93,10 @@ class GStreamerVideoReceiver:
                     
                 # Публикуем изображение в топик /nn_image
                 self.image_pub.publish(ros_image)
-                rospy.logwarn("ЗАЕБИСЬ ОНО ПАШЕТ!!!")
+                rospy.logwarn("IN ЗАЕБИСЬ ОНО ПАШЕТ!!!")
 
             except Exception as e:
-                    rospy.logwarn(f"Ошибка при преобразовании изображения: {e}")
+                    rospy.logwarn(f"IN Ошибка при преобразовании изображения: {e}")
 
 if __name__ == '__main__':
     try:
