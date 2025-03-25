@@ -38,7 +38,7 @@ class GStreamerImagePublisher:
             cv_image = cv2.resize(cv_image, (640, 480))
             
             self.out.write(cv_image)
-            rospy.logwarn("OUT УСПЕШНО отправлен кадр")
+            # rospy.logwarn("OUT УСПЕШНО отправлен кадр")
 
         except Exception as e:
             rospy.logerr(f"OUT Ошибка при обработке изображения: {e}")
