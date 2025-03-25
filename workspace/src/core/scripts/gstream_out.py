@@ -23,13 +23,9 @@ class GStreamerImagePublisher:
 
         self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
 
-        if not self.out.isOpened():
-            rospy.logerr("Ошибка открытия GStreamer VideoWriter")
-            self.out = None  # Обнуляем переменную, чтобы не использовать нерабочий объект
-        else:
-            # Потом инитим подпищика, когда уже открыт гстример, чтобы колбек не срабатывал раньше времени 
-            self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
-            rospy.logwarn("УСПЕШНО открыт GStreamer VideoWriter и запущен subscriber")
+        
+        self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
+        rospy.logwarn("УСПЕШНО открыт GStreamer VideoWriter и запущен subscriber")
 
 
     def image_callback(self, msg):
