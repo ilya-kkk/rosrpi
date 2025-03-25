@@ -5,7 +5,10 @@ services:
     privileged: true
     stdin_open: true         # Открывает stdin
     tty: true                # Включает псевдотерминал
-    network_mode: "host"
+    networks:
+      - docker_net  
+    ports:
+      - "11311:11311"
     ipc: "host"
     devices:
       - /dev/video0:/dev/video0
@@ -26,9 +29,14 @@ services:
   nn1:
     image: ilya9kkk/nn_arm:latest
     container_name: nn1
-    network_mode: "host"     # Используем сеть хоста
+    networks:
+      - docker_net     # Используем сеть хоста
     stdin_open: true         # Открывает stdin
     tty: true                # Включает псевдотерминал
     volumes:
       - ${ROOT_DIR}/nn_ws:/nn_ws
     entrypoint: ["/bin/bash", "-c", "python3 /nn_ws/yolo.py; tail -f /dev/null"]
+
+networks:
+  docker_net :
+    driver: bridge
