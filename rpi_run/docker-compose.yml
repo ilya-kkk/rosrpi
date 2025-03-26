@@ -24,7 +24,7 @@ services:
     entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START.bash"]
 
   nn1:
-    image: ilya9kkk/nn_arm:latest
+    image: ilya9kkk/nn_arm:gst
     container_name: nn1
     network_mode: "host"  # Используем сеть хоста
     ipc: "host"
