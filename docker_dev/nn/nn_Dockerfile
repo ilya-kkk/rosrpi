@@ -59,9 +59,13 @@ RUN apt-get update && apt-get install -y \
         libopencv-dev libx11-dev liblapack-dev libv4l-dev libzbar-dev \
         libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
         libeigen3-dev \
-        python3-opencv gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
-        gstreamer1.0-tools gstreamer1.0-libav
+        python3-opencv gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
 
+RUN apt update && apt install -y gstreamer1.0-tools \
+        gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+        gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
+        gstreamer1.0-libav
+            
 # Копируем локальный код в контейнер
 # COPY . /app
 
