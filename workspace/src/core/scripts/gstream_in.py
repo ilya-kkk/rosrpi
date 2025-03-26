@@ -13,20 +13,18 @@ import subprocess
 class GStreamerVideoReceiver:
     def __init__(self, ip='127.0.0.1', port=5005):
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
-        rospy.logwarn("IN инитится 1/5")
+        rospy.logwarn("IN инитится 1/4")
 
         self.bridge = CvBridge()
-        rospy.logwarn("IN инитится 2/5")
+        rospy.logwarn("IN инитится 2/4")
 
         self.image_pub = rospy.Publisher('/nn_image', Image, queue_size=10)
-        rospy.logwarn("IN инитится 3/5")
+        rospy.logwarn("IN инитится 3/4")
 
-        input_pipeline = 'udpsrc port=5001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
-        rospy.logwarn("IN инитится 4/5")
+        self.input_pipeline = 'udpsrc port=5001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
+        self.cap = cv2.VideoCapture(self.input_pipeline, cv2.CAP_GSTREAMER)
 
-        
-        self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
-        rospy.logwarn("IN УСПЕШНО 5/5 заинитился")
+        rospy.logwarn("IN УСПЕШНО 4/4 заинитился")
 
 
     def capture_and_publish(self):
