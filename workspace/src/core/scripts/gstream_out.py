@@ -14,7 +14,7 @@ class GStreamerImagePublisher:
         self.bridge = CvBridge()
         rospy.logwarn("OUT инитится 2/4")
 
-        self.output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=0.0.0.0 port=5000'
+        self.output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=127.0.0.1 port=5000'
         self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
         rospy.logwarn("OUT инитится 3/4")
 
