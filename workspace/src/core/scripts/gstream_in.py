@@ -24,14 +24,8 @@ class GStreamerVideoReceiver:
         input_pipeline = 'udpsrc port=5001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
         rospy.logwarn("IN инитится 4/5")
 
-        while True:
-            try:
-                self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
-                if self.cap.isOpened():  # Проверка, открылся ли видеопоток
-                    break  # Выход из цикла, если видеопоток успешно открыт
-            except Exception as e:
-                rospy.logwarn(f"IN Ошибка при попытке открыть видеопоток: {e}")
-
+        
+        self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
         rospy.logwarn("IN УСПЕШНО 5/5 заинитился")
 
 

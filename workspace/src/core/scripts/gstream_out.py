@@ -9,7 +9,8 @@ class GStreamerImagePublisher:
     def __init__(self):
         rospy.init_node('gstreamer_image_publisher', anonymous=True)
         rospy.logwarn("OUT инитится 1/4")
-
+        rospy.sleep(10)
+        
         self.bridge = CvBridge()
         rospy.logwarn("OUT инитится 2/4")
 
