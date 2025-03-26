@@ -25,23 +25,10 @@ def filter_detections(results, target_classes):
             filtered.append(box)
     return filtered
 
-# GStreamer pipeline для приема видеопотока по UDP (порт 5000)
-# input_pipeline = (
-#     # "udpsrc port=5000 ! application/x-rtp,media=video,clock-rate=90000,encoding-name=H264,payload=96 ! rtph264depay ! avdec_h264 ! appsink sync=false"
-# # "udpsrc port=5005 host=127.0.0.1 ! "
-# #   "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 !" 
-# #   "rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink"
-#     # "udpsrc port=5000 ! "
-#     # "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
-#     # "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
-#     # udpsrc port=5000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! appsink'
-# )
+# GStreamer pipelines
+input_pipeline = 'udpsrc port=5000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
 
-input_pipeline = 'udpsrc port=5000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! appsink'
-# output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=127.0.0.1 port=5005'
-
-# output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=192.168.0.173 port=5005'
-output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=192.168.0.173 port=5000'
+output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=192.168.0.173 port=5005'
 
 
 

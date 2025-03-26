@@ -25,27 +25,13 @@ class GStreamerVideoReceiver:
         self.ip = ip
         self.port = port
 
-        # Ожидание доступности порта перед запуском GStreamer
-        # while not self.is_port_open():
-        #     rospy.logwarn(f"Не удалось подключиться к {self.ip}:{self.port}. Повторная попытка через 1 секунду...")
-        #     time.sleep(1)
-        
-        # Проверка и запуск GStreamer
-        # self.ensure_gstreamer_running()
-
-        # GStreamer pipeline для получения видео
-        # gst_pipeline = (
-        #     "udpsrc port=5005 ! "
-        #     "application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! "
-        #     "rtph264depay ! avdec_h264 ! videoconvert ! appsink sync=false"
-        #     )
-        input_pipeline = 'udpsrc port=5005 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! appsink'
-
+        input_pipeline = 'udpsrc port=5005 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
 
         # Используем cv2.VideoCapture с GStreamer
         while True:
             self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
             if self.cap.isOpened():
+                rospy.logwarn("IN self.cap.isOpened() TRUE")
                 break  # Выходим из цикла, если видеопоток успешно открыт
             rospy.logwarn("IN Ошибка: Не удалось открыть видеопоток. Повторная попытка...")
 
