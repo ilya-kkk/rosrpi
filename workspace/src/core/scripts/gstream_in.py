@@ -11,68 +11,27 @@ import os
 import subprocess
 
 class GStreamerVideoReceiver:
-    def __init__(self, ip='127.0.0.1', port=5001):
+    def __init__(self, ip='127.0.0.1', port=5005):
         rospy.logwarn("IN инитится")
-        # Инициализация ROS ноды
+        
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
-        
-        # Создаем объект для преобразования изображения между ROS и OpenCV
         self.bridge = CvBridge()
-        
-        # Публикуем изображения в топик /nn_image
         self.image_pub = rospy.Publisher('/nn_image', Image, queue_size=10)
-        
-        self.ip = ip
-        self.port = port
 
         input_pipeline = 'udpsrc port=5005 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
+        self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
 
-        # Используем cv2.VideoCapture с GStreamer
-        while True:
-            self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
-            if self.cap.isOpened():
-                rospy.logwarn("IN self.cap.isOpened() TRUE")
-                break  # Выходим из цикла, если видеопоток успешно открыт
-            rospy.logwarn("IN Ошибка: Не удалось открыть видеопоток. Повторная попытка...")
-
-        # if not self.cap.isOpened():
-        #     rospy.logerr("Не удалось открыть видеопоток через GStreamer.")
-        #     self.cap = None
         rospy.logwarn("IN Из нейронки в рос заинитилось")
 
-    def is_port_open(self):
-        """Проверка доступности порта с использованием socket."""
-        try:
-            with socket.create_connection((self.ip, self.port), timeout=1):
-                return True
-        except (socket.timeout, socket.error):
-            return False
-
-    def is_gstreamer_running(self):
-        """Проверка, запущен ли процесс GStreamer."""
-        try:
-            # Проверяем процессы с помощью командной строки
-            output = subprocess.check_output(["pgrep", "-f", "gstreamer"], stderr=subprocess.PIPE)
-            return len(output.strip()) > 0
-        except subprocess.CalledProcessError:
-            return False
-
-    def ensure_gstreamer_running(self):
-        """Обеспечиваем, что процесс GStreamer запущен. Повторная попытка, если нет."""
-        while not self.is_gstreamer_running():
-            rospy.logwarn("IN GStreamer не запущен. Ожидание...")
-            time.sleep(1)
-        
-        rospy.loginfo("IN GStreamer процесс успешно запущен.")
 
     def capture_and_publish(self):
-        # if self.cap is None:
-        #     rospy.logerr("Камера не была успешно инициализирована.")
-        #     return
-
         while not rospy.is_shutdown():
             ret, frame = self.cap.read()
-    
+            if ret:
+                rospy.logwarn("IN пришло")
+            else:
+                rospy.logerr("IN не пришло")
+
             try:
                 # Преобразуем кадр в формат ROS Image
                 ros_image = self.bridge.cv2_to_imgmsg(frame, "bgr8")
@@ -86,7 +45,7 @@ class GStreamerVideoReceiver:
 
 if __name__ == '__main__':
     try:
-        video_receiver = GStreamerVideoReceiver('127.0.0.1', 5001)
+        video_receiver = GStreamerVideoReceiver('127.0.0.1', 5005)
         video_receiver.capture_and_publish()
     except rospy.ROSInterruptException:
         pass

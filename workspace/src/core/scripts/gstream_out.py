@@ -10,7 +10,7 @@ class GStreamerImagePublisher:
         rospy.init_node('gstreamer_image_publisher', anonymous=True)
         self.bridge = CvBridge()
 
-        self.output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=192.168.0.173 port=5000'
+        self.output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=127.0.0.1 port=5000'
 
         self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
