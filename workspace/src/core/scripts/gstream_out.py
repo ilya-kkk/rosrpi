@@ -7,8 +7,6 @@ from cv_bridge import CvBridge
 
 class GStreamerImagePublisher:
     def __init__(self):
-        rospy.logwarn("OUT инитится")
-
         rospy.init_node('gstreamer_image_publisher', anonymous=True)
         rospy.logwarn("OUT инитится 1/4")
 
