@@ -44,7 +44,7 @@ def main():
     print("Начало обработки видеопотока...")
     while True:
         ret, frame = cap.read()
-        ret, frame = self.cap.read()
+        ret, frame = cap.read()
         if ret:
             print("NN пришло")
         else:
