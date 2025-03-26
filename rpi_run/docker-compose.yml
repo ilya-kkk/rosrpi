@@ -27,6 +27,7 @@ services:
     image: ilya9kkk/nn_arm:latest
     container_name: nn1
     network_mode: "host"  # Используем сеть хоста
+    ipc: "host"
     stdin_open: true         # Открывает stdin
     tty: true                # Включает псевдотерминал
     volumes:
