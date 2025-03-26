@@ -6,7 +6,7 @@ import socket
 from ultralytics import YOLO
 
 # Загрузка модели YOLO (если модели нет в указанном пути, она будет скачана)
-print("NN init start")
+print(" \033[1;33m NN init start \033[0m")
 model_path = "/nn_ws/yolo8n.pt"
 if not os.path.exists(model_path):
     print("Модель не найдена! Скачивание...")
@@ -46,9 +46,9 @@ def main():
         ret, frame = cap.read()
         ret, frame = cap.read()
         if ret:
-            print("NN пришло")
+            print(" \033[0;32m NN пришло \033[0m")
         else:
-            print("INN не пришло")
+            print("\033[0;31m INN не пришло \033[0m")
 
         # Применяем модель YOLO для обнаружения объектов
 

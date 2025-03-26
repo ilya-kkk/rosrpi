@@ -15,13 +15,19 @@ class GStreamerVideoReceiver:
         rospy.logwarn("IN инитится")
         
         rospy.init_node('gstreamer_video_receiver', anonymous=True)
+        rospy.logwarn("IN инитится 1/5")
+
         self.bridge = CvBridge()
+        rospy.logwarn("IN инитится 2/5")
+
         self.image_pub = rospy.Publisher('/nn_image', Image, queue_size=10)
+        rospy.logwarn("IN инитится 3/5")
 
         input_pipeline = 'udpsrc port=5005 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
-        self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
+        rospy.logwarn("IN инитится 4/5")
 
-        rospy.logwarn("IN Из нейронки в рос заинитилось")
+        self.cap = cv2.VideoCapture(input_pipeline, cv2.CAP_GSTREAMER)
+        rospy.logwarn("IN УСПЕШНО 5/5 заинитился")
 
 
     def capture_and_publish(self):

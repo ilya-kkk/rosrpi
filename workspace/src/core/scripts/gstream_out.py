@@ -7,14 +7,20 @@ from cv_bridge import CvBridge
 
 class GStreamerImagePublisher:
     def __init__(self):
+        rospy.logwarn("OUT инитится")
+
         rospy.init_node('gstreamer_image_publisher', anonymous=True)
+        rospy.logwarn("OUT инитится 1/4")
+
         self.bridge = CvBridge()
+        rospy.logwarn("OUT инитится 2/4")
 
         self.output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=127.0.0.1 port=5000'
-
         self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
+        rospy.logwarn("OUT инитится 3/4")
+
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
-        rospy.logwarn("OUT УСПЕШНО открыт GStreamer VideoWriter и запущен subscriber")
+        rospy.logwarn("OUT УСПЕШНО 4/4 заинитился")
 
 
     def image_callback(self, msg):
