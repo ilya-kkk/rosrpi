@@ -1,0 +1,48 @@
+# Используем базовый образ Ubuntu 20.04 для архитектуры ARM64
+FROM ilya9kkk/ros_arm:nn
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Устанавливаем необходимые системные зависимости
+RUN apt-get update && apt-get upgrade -y 
+
+RUN apt-get install -y tzdata && \
+    ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+
+# Устанавливаем дополнительные пакеты, отсутствующие в rpi_Dockerfile
+RUN apt-get install -y \
+    libprotobuf-dev \
+    protobuf-compiler \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    liblmdb-dev \
+    libsnappy-dev
+
+RUN apt-get install -y \
+    autoconf \
+    automake \
+    libtool
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Устанавливаем необходимые Python-библиотеки
+RUN pip3 install --upgrade pip && \
+    pip3 install \
+    torch \
+    torchvision \
+    torchaudio \
+    matplotlib \
+    numpy \
+    scikit-learn \
+    ultralytics
+
+RUN pip install --upgrade numpy
+
+# Копируем локальный код в контейнер
+# COPY . /app
+
+# Устанавливаем рабочую директорию
+# WORKDIR /app
+
+# Команда по умолчанию при запуске контейнера
+# CMD ["python3", "your_script.py"]
