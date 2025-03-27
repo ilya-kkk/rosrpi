@@ -7,7 +7,7 @@ import os
 from ultralytics import YOLO
 
 
-model_path = "/nn_ws/yolo8n.pt"
+model_path = "/workspace/src/core/scripts/yolo8n.pt"
 if not os.path.exists(model_path):
     print("Model not found! Downloading...")
     model = YOLO('yolo8n.pt')
