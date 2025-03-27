@@ -31,7 +31,7 @@ class YoloNode:
         rospy.init_node('yolo_node', anonymous=True)
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
-        self.image_pub = rospy.Publisher('/image_nn', Image, queue_size=10)
+        self.image_pub = rospy.Publisher('/image_nn', Image, queue_size=1)
         rospy.loginfo("YOLO node initialized and ready.")
 
     def image_callback(self, msg):
