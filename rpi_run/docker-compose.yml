@@ -11,7 +11,7 @@ services:
       resources:
         limits:
           memory: 4g
-    shm_size: '1g'
+    shm_size: '4g'
     devices:
       - /dev/video0:/dev/video0
     group_add:
@@ -23,6 +23,7 @@ services:
       - LD_LIBRARY_PATH=/opt/vc/lib
       - OMP_NUM_THREADS=1
       - OPENBLAS_NUM_THREADS=1
+      - LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
     volumes:
       - /opt/vc:/opt/vc
       - /dev:/dev
