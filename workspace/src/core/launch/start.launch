@@ -1,10 +1,10 @@
 <launch>
 
     <!-- Запуск LL || /cmd_vel -> arduino || mobile_robot_ros_driver -->
-    <!-- <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" /> -->
+    <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" />
     <!--  -->
     <!-- <arg name="disable_ll" default="false" /> -->
-    <!-- <include unless="$(eval disable_ll=='true')" file="$(find mobile_robot_ros_driver)/launch/bringup.launch" /> -->
+    <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" />
 
 
     <!-- Запуск ноды usb_cam -->
