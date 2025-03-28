@@ -2,6 +2,7 @@ services:
   ros_rpi:
     image: ilya9kkk/ros_arm:ros_yolo
     container_name: ros_rpi
+    platform: linux/arm64
     privileged: true
     stdin_open: true         # Открывает stdin
     tty: true                # Включает псевдотерминал
