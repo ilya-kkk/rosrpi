@@ -11,93 +11,34 @@
     <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
         <!-- Параметры камеры -->
         <param name="video_device" value="/dev/video0" />
-        <param name="framerate" value="60" />
+        <param name="framerate" value="30" />
         <param name="image_width" value="640" />
         <param name="image_height" value="480" />
-        <param name="pixel_format" value="yuyv" />
+        <param name="pixel_format" value="rgb24" />
         <param name="camera_frame_id" value="usb_cam" />
     </node>
 
     <!-- Отлично, у нас есть /cmd_vel для команд управления и /camera1/image с картиной с камеры -->
     <!-- Теперь можно запускать свои и заимствованые ноды -->
 
+    <!-- ORB Slam нода  -->
+    <include file="$(find orb_slam2_ros)/ros/launch/orb_slam_mono1.launch" />
 
-    <!-- Нода зрения -->
-    <!-- <node pkg="core" type="cv.py" name="cv"
-        output="screen">
-    </node> -->
-
-
+    <!-- Yolo в росе нода  -->
+    <node pkg="core" type="yolo_in_ros.py" name="nn"
+            output="screen">
+    </node> 
         <!-- Отправка в нейронку -->
     <!-- <node pkg="core" type="gstream_out.py" name="nn1_out"
         output="screen">
     </node> -->
-
         <!-- Прием из нейронки -->
     <!-- <node pkg="core" type="gstream_in.py" name="nn1_in"
         output="screen">
     </node>  -->
 
-  <node pkg="core" type="yolo_in_ros.py" name="nn"
-        output="screen">
-    </node> 
+  
 
-    <!-- Нода руль -->
-    <!-- <node pkg="core" type="controller.py" name="controller"
-        output="screen">
-    </node> -->
-
-    <!-- Hector SLAM запуск -->
-    <!-- <include file="$(find hector_mapping)/launch/mapping_default.launch">
-    </include>
-    <param name="use_sim_time" value="true" />
-    <param name="base_frame" value="base_footprint" />
-    <param name="odom_frame" value="wheel_odom" />
-    <param name="map_frame" value="map" />
-    <param name="laser_max_range" value="2" />
-    <param name="laser_min_range" value="0.1" />
-    <param name="mapping_frequency" value="10.0" />
-    <param name="pub_map_tf" value="false" />
-    <param name="pub_map_odom_transform" value="false" /> -->
-
-    <!-- статические ТФ паблишеры для корректной работы Hector SLAM  -->
-    <!-- <node name="static_transform_publisher1" pkg="tf" type="static_transform_publisher"
-        args=" 0 0 0 0.0 0.0 0.0 1.0 map odom 60"> 
-    </node>
-    <node name="static_transform_publisher2" pkg="tf" type="static_transform_publisher"
-        args=" 0 0 0.1 0.0 0.0 0.0 1.0 base_footprint base_link 60">
-    </node>
-    <node name="static_transform_publisher4" pkg="tf" type="static_transform_publisher"
-        args=" 0 0 0 0.0 0.0 0.0 1.0 map nav 60">
-    </node> -->
-
-    <!-- Запуск map to img ноды -->
-    <!-- <node name="map_to_image_node" pkg="core" type="map_img.py"
-        output="screen">
-    </node> -->
-
-    <!-- Move Base НАВИАЦИЯ-->
-    <!-- <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <rosparam file="$(find core)/config/costmap_common_params.yaml"
-            command="load" ns="global_costmap" />
-        <rosparam file="$(find core)/config/costmap_common_params.yaml"
-            command="load" ns="local_costmap" />
-        <rosparam file="$(find core)/config/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find core)/config/global_costmap_params.yaml"
-            command="load" />
-        <rosparam file="$(find core)/config/trajectory.yaml" command="load" />
-    </node> -->
-
-    <!-- AMCL оказывается нужен только когда есть уже готовая карта -->
-    <!-- <node pkg="amcl" type="amcl" name="amcl" output="screen">
-        <rosparam file="$(find core)/config/amcl_params.yaml" command="load" />
-    </node> -->
-
-    <!-- EKF Localizer Фильтр калмана -->
-    <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"
-        output="screen">
-        <param name="use_sim_time" value="true" />
-        <rosparam file="$(find core)/config/ekf.yaml" command="load" />
-    </node>  -->
+   
     
 </launch>

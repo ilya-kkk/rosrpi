@@ -10,8 +10,10 @@
     <env name="ROS_HOSTNAME" value="$(arg this_ip)" />
 
     <!-- Запуск RViz -->
-    <arg name="rviz_config" default="$(find core)/config/nav.rviz" />
+    <!-- <arg name="rviz_config" default="$(find core)/config/nav.rviz" /> -->
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" /> -->
+    <!-- Запуск RViz для ORB slam -->
+    <arg name="rviz_config" default="$(find core)/config/rviz_config.rviz" />
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" />
-
 
 </launch>
