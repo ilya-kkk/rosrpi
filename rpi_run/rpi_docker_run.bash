@@ -19,5 +19,5 @@ docker run -ti --rm \
     --net=host \
     --ipc=host \
     --privileged \
-    --name ros_rpi ilya9kkk/ros_arm:ros_yolo \
+    --name ros_jet ilya9kkk/ros_arm:ros_yolo \
 # bash -c "sleep 5 && /workspace/rpi_depend_KOSTYL.bash && exec bash"
