@@ -6,19 +6,19 @@ import cv2
 import os
 from ultralytics import YOLO
 
-
 model_path = "/workspace/src/core/scripts/yolo8n.pt"
 if not os.path.exists(model_path):
-    print("Model not found! Downloading...")
-    model = YOLO('yolo8n.pt')
+    rospy.loginfo("Model not found! Downloading...")
+    # Загружаем модель с указанием устройства GPU
+    model = YOLO('yolo8n.pt', device="cuda")
 else:
-    model = YOLO(model_path)
+    model = YOLO(model_path, device="cuda")
 
-# Target classes for detection
+# Целевые классы для детекции
 target_classes = [0, 2, 14, 15]
 
 def filter_detections(results, target_classes):
-    """Filter detected objects by target classes."""
+    """Фильтрация обнаруженных объектов по целевым классам."""
     filtered = []
     boxes = results[0].boxes
     for box in boxes:
@@ -32,19 +32,19 @@ class YoloNode:
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
         self.image_pub = rospy.Publisher('/image_nn', Image, queue_size=1)
-        rospy.loginfo("YOLO node initialized and ready.")
+        rospy.loginfo("YOLO node initialized and ready on GPU.")
 
     def image_callback(self, msg):
         try:
-            # Convert ROS Image message to OpenCV image
+            # Преобразуем ROS Image в OpenCV изображение
             frame = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             rospy.loginfo("Received image for processing.")
 
-            # Apply YOLO model for object detection
+            # Запускаем инференс на GPU
             results = model(frame)
             filtered_boxes = filter_detections(results, target_classes)
 
-            # Draw bounding boxes and labels on the frame
+            # Рисуем bounding box'ы и метки на изображении
             for box in filtered_boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
                 conf = box.conf.item()
@@ -54,7 +54,7 @@ class YoloNode:
                 cv2.putText(frame, label, (x1, y1 - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-            # Convert processed frame back to ROS Image message and publish
+            # Преобразуем обработанное изображение обратно в ROS сообщение и публикуем
             processed_msg = self.bridge.cv2_to_imgmsg(frame, "bgr8")
             self.image_pub.publish(processed_msg)
             rospy.loginfo("Processed image published to /image_nn.")
