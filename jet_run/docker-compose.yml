@@ -10,10 +10,7 @@ services:
     ipc: "host"
     devices:
       - "/dev:/dev"
-    device_requests:
-      - driver: nvidia
-        count: all
-        capabilities: [gpu]
+    runtime: nvidia
     environment:
       - OMP_NUM_THREADS=1
       - OPENBLAS_NUM_THREADS=1
