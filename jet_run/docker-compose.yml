@@ -17,4 +17,4 @@ services:
     volumes:
       - /dev:/dev
       - /home/xavier/rosrpi/workspace:/workspace
-    entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START.bash"]
+    entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START_JET.bash"]
