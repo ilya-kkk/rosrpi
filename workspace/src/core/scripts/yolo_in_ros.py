@@ -4,21 +4,28 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
 import os
+import torch
 from ultralytics import YOLO
 
 model_path = "/workspace/src/core/scripts/yolo8n.pt"
 if not os.path.exists(model_path):
     rospy.loginfo("Model not found! Downloading...")
-    # Загружаем модель с указанием устройства GPU
-    model = YOLO('yolo8n.pt', device="cuda")
+    model = YOLO("yolo8n.pt")
 else:
-    model = YOLO(model_path, device="cuda")
+    model = YOLO(model_path)
 
-# Целевые классы для детекции
+# Проверяем доступность CUDA и переводим модель на GPU
+if torch.cuda.is_available():
+    rospy.loginfo("CUDA is available. Moving model to GPU.")
+    model.model.to("cuda")
+else:
+    rospy.logwarn("CUDA is not available. Running on CPU.")
+
+# Target classes for detection
 target_classes = [0, 2, 14, 15]
 
 def filter_detections(results, target_classes):
-    """Фильтрация обнаруженных объектов по целевым классам."""
+    """Filter detected objects by target classes."""
     filtered = []
     boxes = results[0].boxes
     for box in boxes:
@@ -32,19 +39,19 @@ class YoloNode:
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)
         self.image_pub = rospy.Publisher('/image_nn', Image, queue_size=1)
-        rospy.loginfo("YOLO node initialized and ready on GPU.")
+        rospy.loginfo("YOLO node initialized and ready.")
 
     def image_callback(self, msg):
         try:
-            # Преобразуем ROS Image в OpenCV изображение
+            # Convert ROS Image message to OpenCV image
             frame = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             rospy.loginfo("Received image for processing.")
 
-            # Запускаем инференс на GPU
+            # Apply YOLO model for object detection
             results = model(frame)
             filtered_boxes = filter_detections(results, target_classes)
 
-            # Рисуем bounding box'ы и метки на изображении
+            # Draw bounding boxes and labels on the frame
             for box in filtered_boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
                 conf = box.conf.item()
@@ -54,7 +61,7 @@ class YoloNode:
                 cv2.putText(frame, label, (x1, y1 - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-            # Преобразуем обработанное изображение обратно в ROS сообщение и публикуем
+            # Convert processed frame back to ROS Image message and publish
             processed_msg = self.bridge.cv2_to_imgmsg(frame, "bgr8")
             self.image_pub.publish(processed_msg)
             rospy.loginfo("Processed image published to /image_nn.")
