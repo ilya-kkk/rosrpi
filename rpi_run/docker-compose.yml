@@ -1,6 +1,6 @@
 services:
   ros_rpi:
-    image: ilya9kkk/ros_arm:ros_yolo
+    image: ilya9kkk/ros_arm:gpio
     container_name: ros_rpi
     platform: linux/arm64
     privileged: true
