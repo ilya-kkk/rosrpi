@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 set -e  # Останавливает выполнение скрипта при ошибке
 
-echo "${YELLOW}CONTAINER START SCRIPT RUNNING...${NC}"
+echo "CONTAINER START JETSON RUNNING..."
 
 # Открываем интерактивную оболочку Bash и выполняем команды внутри неё
 /bin/bash -i << EOF

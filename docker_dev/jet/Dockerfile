@@ -182,7 +182,7 @@ RUN pip3 install --upgrade pip && \
     ultralytics
 
 RUN pip install --upgrade numpy
-
+RUN pip install torchvision==0.19
 # Указываем рабочую директорию
 WORKDIR /workspace
 
