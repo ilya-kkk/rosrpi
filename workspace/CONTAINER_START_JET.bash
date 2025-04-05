@@ -16,9 +16,9 @@ echo "CONTAINER START JETSON RUNNING..."
 echo "${YELLOW}Переходим в директорию workspace...${NC}"
 cd workspace
 
-catkin clean -y
+# catkin clean -y
 echo "${YELLOW}Строим catkin workspace...${NC}"
-catkin build
+# catkin build
 
 echo "${YELLOW}Настройка окружения с помощью setup.bash...${NC}"
 source devel/setup.bash
