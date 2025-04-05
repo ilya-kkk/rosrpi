@@ -1,6 +1,6 @@
 services:
   ros_rpi:
-    image: ilya9kkk/xavier:yolo
+    image: ilya9kkk/xavier:yolo_ros
     container_name: ros_jet
     platform: linux/arm64
     privileged: true
@@ -17,4 +17,4 @@ services:
     volumes:
       - /dev:/dev
       - /home/xavier/rosrpi/workspace:/workspace
-    entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START.bash"]
+    entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START_JET.bash"]

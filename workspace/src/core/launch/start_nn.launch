@@ -1,0 +1,36 @@
+<launch>
+
+    <!-- Запуск LL || /cmd_vel -> arduino || mobile_robot_ros_driver -->
+    <!-- <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" /> -->
+    
+    <!-- Запуск ноды usb_cam -->
+    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
+        <!-- Параметры камеры -->
+        <param name="video_device" value="/dev/video0" />
+        <param name="framerate" value="30" />
+        <param name="image_width" value="640" />
+        <param name="image_height" value="480" />
+        <param name="pixel_format" value="rgb24" />
+        <param name="camera_frame_id" value="usb_cam" />
+    </node>
+
+    <!-- Отлично, у нас есть /cmd_vel для команд управления и /camera1/image с картиной с камеры -->
+    <!-- Теперь можно запускать свои и заимствованые ноды -->
+
+    <!-- ORB Slam нода  -->
+    <!-- <include file="$(find orb_slam2_ros)/ros/launch/orb_slam_mono1.launch" /> -->
+
+    <!-- Yolo в росе нода  -->
+    <node pkg="core" type="yolo_in_ros.py" name="nn"
+            output="screen">
+    </node> 
+        <!-- Отправка в нейронку -->
+    <!-- <node pkg="core" type="gstream_out.py" name="nn1_out"
+        output="screen">
+    </node> -->
+        <!-- Прием из нейронки -->
+    <!-- <node pkg="core" type="gstream_in.py" name="nn1_in"
+        output="screen">
+    </node>  -->
+    
+</launch>
