@@ -16,5 +16,5 @@ services:
       - LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
     volumes:
       - /dev:/dev
-      - ${ROOT_DIR}/workspace:/workspace
+      - /home/xavier/rosrpi/workspace:/workspace
     entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START.bash"]
