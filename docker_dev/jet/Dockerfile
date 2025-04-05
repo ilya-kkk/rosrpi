@@ -87,7 +87,7 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
 
 # Install extra libraries
 RUN apt-get install -y python3-pip
-RUN pip install pathlib statistics scipy
+# RUN pip install pathlib statistics scipy
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
                       apt-get install -y ros-noetic-ecl-geometry \
