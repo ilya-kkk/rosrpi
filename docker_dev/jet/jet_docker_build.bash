@@ -6,7 +6,7 @@ echo "ROOT_DIR: $ROOT_DIR"
 echo "EXEC_PATH: $EXEC_PATH"
 
 cd $ROOT_DIR
-docker build --platform linux/arm64 -t jet -f $ROOT_DIR/jet/dockerfile_jet $ROOT_DIR \
+docker build --platform linux/arm64 -t jet -f $ROOT_DIR/jet/Dockerfile $ROOT_DIR \
                                   --network=host \
                                   
 cd $EXEC_PATH
