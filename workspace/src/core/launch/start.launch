@@ -32,9 +32,5 @@
     <!-- <node pkg="core" type="gstream_in.py" name="nn1_in"
         output="screen">
     </node>  -->
-
-  
-
-   
     
 </launch>

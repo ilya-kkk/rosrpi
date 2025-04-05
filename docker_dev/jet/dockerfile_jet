@@ -1,0 +1,32 @@
+# Базовый образ с поддержкой JetPack 5 для Jetson
+FROM ultralytics/ultralytics:latest-jetson-jetpack5
+
+# Обновляем систему и устанавливаем системные зависимости
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Обновляем pip и устанавливаем необходимые Python-пакеты
+RUN python3 -m pip install --upgrade pip
+
+# Устанавливаем зависимости для YOLOv8
+RUN pip install --no-cache-dir \
+    opencv-python-headless \
+    ultralytics \
+    torch torchvision torchaudio
+
+# Если требуется дополнительная настройка, например установка других утилит,
+# можно добавить их здесь
+
+# Указываем рабочую директорию
+WORKDIR /workspace
+
+# Копируем исходный код (если он есть) в образ (при необходимости)
+# COPY . /workspace
+
+# По умолчанию запускаем bash
+CMD ["bash"]
