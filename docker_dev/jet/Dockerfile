@@ -50,7 +50,6 @@ USER root
 
 # install required packages
 
-
 RUN apt-get update && apt-get install -y apt-utils \
                                          lsb-release \
                                          mesa-utils \
@@ -61,11 +60,40 @@ RUN apt-get update && apt-get install -y apt-utils \
                                          curl \
                                          git \
                                          mc \
-                                         vim
-
-
-
-# Install ROS desktop and Gazebo
+                                         vim \
+                                         tree \
+                                         tzdata \
+                                         libprotobuf-dev \
+                                         protobuf-compiler \
+                                         libgoogle-glog-dev \
+                                         libgflags-dev \
+                                         liblmdb-dev \
+                                         libsnappy-dev \
+                                         autoconf \
+                                         automake \
+                                         libtool \
+                                         python3-catkin-tools \
+                                         ros-noetic-ecl-geometry \
+                                         ros-noetic-tf2-sensor-msgs \
+                                         ros-noetic-move-base-msgs \
+                                         ros-noetic-image-proc \
+                                         ros-noetic-image-transport \
+                                         ros-noetic-camera-info-manager \
+                                         ros-noetic-cv-bridge \
+                                         ros-noetic-compressed-image-transport \
+                                         ros-noetic-theora-image-transport \
+                                         ros-noetic-rqt-image-view \
+                                         v4l-utils \
+                                         udev \
+                                         ros-noetic-usb-cam \
+                                         fswebcam \
+                                         libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
+                                         libeigen3-dev \
+                                         gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
+                                         gstreamer1.0-tools gstreamer1.0-libav \
+                                         libc6-dev:arm64 \
+                                         libraspberrypi-dev \
+                                         && rm -rf /var/lib/apt/lists/*
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     curl -s 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc' | apt-key add - && \
@@ -73,72 +101,14 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
                       apt-get install -y ros-noetic-desktop-full \
                                          ros-noetic-ros-control \
                                          ros-noetic-teleop-twist-keyboard        
-                                        #  ros-noetic-gazebo-ros-pkgs \
-                                        #  ros-noetic-gazebo-ros-control \
-    #                                      python3-rosdep\
-    #                                      python3-rosinstall \
-    #                                      python3-rosinstall-generator \
-    #                                      python3-wstool \
-    #                                      build-essential \
-    # rosdep init && rosdep update && \
-    # echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc && \
-    # echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
 
 # Install extra libraries
 RUN apt-get install -y python3-pip
-# RUN pip install pathlib statistics scipy
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
-                      apt-get install -y ros-noetic-ecl-geometry \
-                                            ros-noetic-tf2-sensor-msgs \
-                                            ros-noetic-move-base-msgs \
-                                            ros-noetic-image-proc
-        
 RUN pip install numpy scikit-image pillow
-                                        
-#RUN sudo sh \
-    #-c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
-    #    > /etc/apt/sources.list.d/ros-latest.list'
-#RUN $ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-RUN apt-get update && apt-get install -y python3-catkin-tools 
+
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
 RUN echo "source /workspace/devel/setup.bash"  >> ~/.bashrc
-RUN apt-get update && apt-get install tree
-
-# Обновляем список пакетов
-RUN apt-get update
-# Устанавливаем необходимые библиотеки для ARM64
-RUN apt-get install -y libc6-dev:arm64
-# Устанавливаем библиотеку для работы с Raspberry Pi (включает MMAL)
-RUN apt-get install -y libraspberrypi-dev
-# Устанавливаем библиотеки Boost для C++
-# RUN apt-get install -y libboost-all-dev
-# Устанавливаем библиотеку Asio для работы с асинхронными операциями ввода/вывода
-# RUN apt-get install -y libasio-dev
-
-RUN apt-get update && apt-get install -y \
-    ros-noetic-image-transport \
-    ros-noetic-camera-info-manager \
-    ros-noetic-cv-bridge \
-    ros-noetic-compressed-image-transport \
-    ros-noetic-theora-image-transport \
-    ros-noetic-rqt-image-view \
-    v4l-utils \
-    mesa-utils \
-    udev \
-    ros-noetic-usb-cam \
-    fswebcam
-
-RUN apt-get update && apt-get install -y \
-    libopencv-dev libx11-dev liblapack-dev libv4l-dev libzbar-dev \
-    libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
-    libeigen3-dev \
-    python3-opencv gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
-
-RUN apt update && apt install -y gstreamer1.0-tools \
-    gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
-    gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
-    gstreamer1.0-libav
 
 RUN usermod -aG video $(whoami)
 RUN echo 'SUBSYSTEM=="vchiq",MODE="0666"' | tee /etc/udev/rules.d/99-camera.rules
@@ -148,24 +118,6 @@ RUN pip install pyserial
 ######################################
 
 RUN apt-get update && apt-get upgrade -y 
-
-RUN apt-get install -y tzdata && \
-    ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata
-
-# Устанавливаем дополнительные пакеты, отсутствующие в rpi_Dockerfile
-RUN apt-get install -y \
-    libprotobuf-dev \
-    protobuf-compiler \
-    libgoogle-glog-dev \
-    libgflags-dev \
-    liblmdb-dev \
-    libsnappy-dev
-
-RUN apt-get install -y \
-    autoconf \
-    automake \
-    libtool
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
