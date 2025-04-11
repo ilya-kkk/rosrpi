@@ -90,9 +90,8 @@ RUN apt-get update && apt-get install -y apt-utils \
                                          libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
                                          libeigen3-dev \
                                          gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
-                                         gstreamer1.0-tools gstreamer1.0-libav \
-                                         libc6-dev:arm64 \
-                                         libraspberrypi-dev 
+                                         gstreamer1.0-tools gstreamer1.0-libav 
+                                        
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     curl -s 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc' | apt-key add - && \
