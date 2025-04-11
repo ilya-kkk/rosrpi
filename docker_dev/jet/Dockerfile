@@ -1,5 +1,10 @@
 # Базовый образ с поддержкой JetPack 5 для Jetson
-FROM ultralytics/ultralytics:latest-jetson-jetpack5
+FROM nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth1.13-py3
+
+# Обновляем пакеты внутри контейнера
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Обновляем систему и устанавливаем системные зависимости
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -178,11 +183,6 @@ RUN pip3 install --upgrade pip && \
     ultralytics
 
 RUN pip install --upgrade numpy
-
-
-RUN pip3 install --upgrade pip && \
-    pip3 install torch torchvision torchaudio --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50 &&\
-    pip install --upgrade torch torchvision --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50
 
 # Указываем рабочую директорию
 WORKDIR /workspace
