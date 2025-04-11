@@ -1,41 +1,14 @@
-[35m[1mScanning dependencies of target raspicam_node_gencfg[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
-[35m[1mScanning dependencies of target _raspicam_node_generate_messages_check_deps_MotionVectors[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
-[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
-[  9%] [34m[1mGenerating dynamic reconfigure files from cfg/Camera.cfg: /workspace/devel/.private/raspicam_node/include/raspicam_node/CameraConfig.h /workspace/devel/.private/raspicam_node/lib/python3/dist-packages/raspicam_node/cfg/CameraConfig.py[0m
-[  9%] Built target std_msgs_generate_messages_eus
-[  9%] Built target std_msgs_generate_messages_lisp
-[  9%] Built target std_msgs_generate_messages_py
+[  9%] Built target raspicam_node_gencfg
 [  9%] Built target std_msgs_generate_messages_nodejs
+[  9%] Built target std_msgs_generate_messages_py
+[  9%] Built target std_msgs_generate_messages_lisp
+[  9%] Built target std_msgs_generate_messages_eus
 [  9%] Built target std_msgs_generate_messages_cpp
 [  9%] Built target _raspicam_node_generate_messages_check_deps_MotionVectors
-[35m[1mScanning dependencies of target raspicam_node_generate_messages_lisp[0m
-[35m[1mScanning dependencies of target raspicam_node_generate_messages_eus[0m
-[35m[1mScanning dependencies of target raspicam_node_generate_messages_nodejs[0m
-[35m[1mScanning dependencies of target raspicam_node_generate_messages_py[0m
-[35m[1mScanning dependencies of target raspicam_node_generate_messages_cpp[0m
-[ 18%] [34m[1mGenerating Lisp code from raspicam_node/MotionVectors.msg[0m
-[ 27%] [34m[1mGenerating Javascript code from raspicam_node/MotionVectors.msg[0m
-[ 36%] [34m[1mGenerating EusLisp code from raspicam_node/MotionVectors.msg[0m
-[ 45%] [34m[1mGenerating EusLisp manifest code for raspicam_node[0m
-[ 54%] [34m[1mGenerating Python from MSG raspicam_node/MotionVectors[0m
-[ 63%] [34m[1mGenerating C++ code from raspicam_node/MotionVectors.msg[0m
-Generating reconfiguration files for Camera in raspicam_node
-Wrote header file in /workspace/devel/.private/raspicam_node/include/raspicam_node/CameraConfig.h
-[ 63%] Built target raspicam_node_generate_messages_lisp
-[ 63%] Built target raspicam_node_generate_messages_nodejs
-[ 63%] Built target raspicam_node_gencfg
-[ 63%] Built target raspicam_node_generate_messages_cpp
-[35m[1mScanning dependencies of target raspicam_node[0m
-[ 72%] [34m[1mGenerating Python msg __init__.py for raspicam_node[0m
-[ 81%] [32mBuilding CXX object CMakeFiles/raspicam_node.dir/src/raspicam_node.cpp.o[0m
-[ 90%] [32mBuilding CXX object CMakeFiles/raspicam_node.dir/src/RaspiCamControl.cpp.o[0m
-[100%] [32m[1mLinking CXX executable /workspace/devel/.private/raspicam_node/lib/raspicam_node/raspicam_node[0m
-[100%] Built target raspicam_node_generate_messages_py
-[100%] Built target raspicam_node_generate_messages_eus
-[35m[1mScanning dependencies of target raspicam_node_generate_messages[0m
-[100%] Built target raspicam_node_generate_messages
+[ 18%] Built target raspicam_node_generate_messages_lisp
+[ 27%] Built target raspicam_node_generate_messages_nodejs
+[ 45%] Built target raspicam_node_generate_messages_eus
+[ 63%] Built target raspicam_node_generate_messages_py
+[ 72%] Built target raspicam_node_generate_messages_cpp
+[ 72%] Built target raspicam_node_generate_messages
 [100%] Built target raspicam_node
