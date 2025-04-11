@@ -1,6 +1,6 @@
 services:
   ros_rpi:
-    image: ilya9kkk/xavier:yolo_ros
+    image: ilya9kkk/xavier:latest
     container_name: ros_jet
     platform: linux/arm64
     privileged: true
