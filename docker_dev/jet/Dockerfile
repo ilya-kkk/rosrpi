@@ -181,7 +181,7 @@ RUN pip install --upgrade numpy
 
 
 RUN pip3 install --upgrade pip && \
-    pip3 install torch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50
+    pip3 install torch torchvision torchaudio --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50
 
 # Указываем рабочую директорию
 WORKDIR /workspace
