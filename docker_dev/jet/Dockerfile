@@ -1,5 +1,5 @@
 # Базовый образ с поддержкой JetPack 5 для Jetson
-FROM nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth1.13-py3
+FROM nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth2.0-py3
 
 # Обновляем пакеты внутри контейнера
 RUN apt-get update && \
