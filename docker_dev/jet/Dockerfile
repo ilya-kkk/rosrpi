@@ -1,82 +1,98 @@
 # Базовый образ с поддержкой JetPack 5 для Jetson
 FROM ultralytics/ultralytics:latest-jetson-jetpack5
 
-# Устанавливаем дополнительные пакеты, отсутствующие в базовом образе
+# Установка базовых утилит и sudo
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libxrender-dev \
-    && rm -rf /var/lib/apt/lists/*
+    sudo \
+    lsb-release \
+    apt-utils \
+    net-tools \
+    mesa-utils \
+    wget \
+    unzip \
+    curl \
+    git \
+    mc \
+    vim \
+    tree \
+    tzdata \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user
+# Установка инструментов сборки
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libprotobuf-dev \
+    protobuf-compiler \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    liblmdb-dev \
+    libsnappy-dev \
+    autoconf \
+    automake \
+    libtool \
+    libeigen3-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Установка GStreamer и V4L2
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    v4l-utils \
+    fswebcam \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-tools \
+    gstreamer1.0-libav \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Установка ROS и связанных пакетов
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-catkin-tools \
+    ros-noetic-ecl-geometry \
+    ros-noetic-tf2-sensor-msgs \
+    ros-noetic-move-base-msgs \
+    ros-noetic-image-proc \
+    ros-noetic-image-transport \
+    ros-noetic-camera-info-manager \
+    ros-noetic-cv-bridge \
+    ros-noetic-compressed-image-transport \
+    ros-noetic-theora-image-transport \
+    ros-noetic-rqt-image-view \
+    ros-noetic-usb-cam \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Установка зависимостей OpenCV и графики
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-opencv \
+    libopencv-dev \
+    libx11-dev \
+    libxrender-dev \
+    liblapack-dev \
+    libv4l-dev \
+    libzbar-dev \
+    libpthread-stubs0-dev \
+    libsdl-dev \
+    libsdl-image1.2-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Установка Python-библиотек
+RUN pip3 install --upgrade pip && \
+    pip3 install matplotlib numpy scikit-learn
+
+# Создание пользователя без root-прав
 ARG USERNAME=ros
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-RUN groupadd --gid $USER_GID $USERNAME \
-  && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
-  && mkdir /home/$USERNAME/.config && chown $USER_UID:$USER_GID /home/$USERNAME/.config
+RUN groupadd --gid $USER_GID $USERNAME && \
+    useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
+    mkdir -p /home/$USERNAME/.config && \
+    chown -R $USERNAME:$USERNAME /home/$USERNAME/.config && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
+    chmod 0440 /etc/sudoers.d/$USERNAME
 
-# Set up sudo
-RUN apt-get update \
-  && apt-get install -y sudo \
-  && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
-  && chmod 0440 /etc/sudoers.d/$USERNAME \
-  && rm -rf /var/lib/apt/lists/*
-
-# Устанавливаем дополнительные пакеты, отсутствующие в базовом образе
-RUN apt-get update && apt-get install -y apt-utils \
-                                         lsb-release \
-                                         mesa-utils \
-                                         net-tools \
-                                         build-essential \
-                                         wget \
-                                         unzip \
-                                         curl \
-                                         git \
-                                         mc \
-                                         vim \
-                                         tree \
-                                         tzdata \
-                                         libprotobuf-dev \
-                                         protobuf-compiler \
-                                         libgoogle-glog-dev \
-                                         libgflags-dev \
-                                         liblmdb-dev \
-                                         libsnappy-dev \
-                                         autoconf \
-                                         automake \
-                                         libtool \
-                                         python3-catkin-tools \
-                                         ros-noetic-ecl-geometry \
-                                         ros-noetic-tf2-sensor-msgs \
-                                         ros-noetic-move-base-msgs \
-                                         ros-noetic-image-proc \
-                                         ros-noetic-image-transport \
-                                         ros-noetic-camera-info-manager \
-                                         ros-noetic-cv-bridge \
-                                         ros-noetic-compressed-image-transport \
-                                         ros-noetic-theora-image-transport \
-                                         ros-noetic-rqt-image-view \
-                                         v4l-utils \
-                                         udev \
-                                         ros-noetic-usb-cam \
-                                         fswebcam \
-                                         libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
-                                         libeigen3-dev \
-                                         gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
-                                         gstreamer1.0-tools gstreamer1.0-libav \
-                                         libc6-dev:arm64 \
-                                         libraspberrypi-dev \
-                                         && rm -rf /var/lib/apt/lists/*
-
-# Устанавливаем необходимые Python-библиотеки
-RUN pip3 install --upgrade pip && \
-    pip3 install \
-    matplotlib \
-    numpy \
-    scikit-learn
-
-# Указываем рабочую директорию
+# Рабочая директория
 WORKDIR /workspace
 
-# По умолчанию запускаем bash
+# По умолчанию запуск bash
 CMD ["bash"]
