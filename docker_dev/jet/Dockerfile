@@ -1,22 +1,10 @@
 # Базовый образ с поддержкой JetPack 5 для Jetson
 FROM ultralytics/ultralytics:latest-jetson-jetpack5
 
-# Устанавливаем дополнительные пакеты, если они отсутствуют
+# Устанавливаем дополнительные пакеты, отсутствующие в базовом образе
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
     libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
-
-# Обновляем pip и устанавливаем необходимые Python-пакеты
-RUN python3 -m pip install --upgrade pip
-
-# Устанавливаем зависимости для YOLOv8
-RUN pip install --no-cache-dir \
-    opencv-python-headless \
-    ultralytics
 
 # Create a non-root user
 ARG USERNAME=ros
@@ -72,10 +60,9 @@ RUN apt-get update && apt-get install -y apt-utils \
                                          udev \
                                          ros-noetic-usb-cam \
                                          fswebcam \
-                                         libopencv-dev libx11-dev liblapack-dev libv4l-dev libzbar-dev \
                                          libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
                                          libeigen3-dev \
-                                         python3-opencv gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
+                                         gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
                                          gstreamer1.0-tools gstreamer1.0-libav \
                                          libc6-dev:arm64 \
                                          libraspberrypi-dev \
@@ -86,8 +73,7 @@ RUN pip3 install --upgrade pip && \
     pip3 install \
     matplotlib \
     numpy \
-    scikit-learn \
-    ultralytics
+    scikit-learn
 
 # Указываем рабочую директорию
 WORKDIR /workspace
