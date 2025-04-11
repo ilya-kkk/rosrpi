@@ -181,7 +181,7 @@ RUN pip install --upgrade numpy
 
 
 RUN pip3 install --upgrade pip && \
-    pip3 install torch torchvision torchaudio --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50 \
+    pip3 install torch torchvision torchaudio --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50 &&\
     pip install --upgrade torch torchvision --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50
 
 # Указываем рабочую директорию
