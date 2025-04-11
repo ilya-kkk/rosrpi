@@ -88,9 +88,7 @@ RUN apt-get update && apt-get install -y apt-utils \
                                          ros-noetic-usb-cam \
                                          fswebcam \
                                          libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
-                                         libeigen3-dev \
-                                         gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
-                                         gstreamer1.0-tools gstreamer1.0-libav 
+                                         libeigen3-dev 
                                         
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
