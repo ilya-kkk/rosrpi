@@ -75,9 +75,9 @@
     </node> -->
 
     <!-- Запуск map to img ноды -->
-    <node name="map_to_image_node" pkg="nav" type="map_img.py"
+    <!-- <node name="map_to_image_node" pkg="nav" type="map_img.py"
         output="screen">
-    </node>
+    </node> -->
 
 
     <!-- AMCL оказывается нужен только когда есть уже готовая карта -->
