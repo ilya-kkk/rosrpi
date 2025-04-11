@@ -16,8 +16,7 @@ RUN python3 -m pip install --upgrade pip
 # Устанавливаем зависимости для YOLOv8
 RUN pip install --no-cache-dir \
     opencv-python-headless \
-    ultralytics \
-    torch torchvision torchaudio
+    ultralytics 
 
 # Если требуется дополнительная настройка, например установка других утилит,
 # можно добавить их здесь
@@ -173,16 +172,17 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Устанавливаем необходимые Python-библиотеки
 RUN pip3 install --upgrade pip && \
     pip3 install \
-    torch \
-    torchvision \
-    torchaudio \
     matplotlib \
     numpy \
     scikit-learn \
     ultralytics
 
 RUN pip install --upgrade numpy
-RUN pip install torchvision==0.19
+
+
+RUN pip3 install --upgrade pip && \
+    pip3 install torch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50
+
 # Указываем рабочую директорию
 WORKDIR /workspace
 
