@@ -13,9 +13,9 @@ class GStreamerImagePublisher:
         self.bridge = CvBridge()
         rospy.logwarn("OUT инитится 2/4")
 
-        # Изменяем pipeline для отправки в YOLO контейнер
-        self.output_pipeline = 'appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=127.0.0.1 port=5000'
-        self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 30, (640, 480), True)
+        # Изменяем pipeline для отправки JPEG кадров в YOLO контейнер
+        self.output_pipeline = 'appsrc ! videoconvert ! jpegenc ! rtpjpegpay ! udpsink host=127.0.0.1 port=5000'
+        self.out = cv2.VideoWriter(self.output_pipeline, cv2.CAP_GSTREAMER, 0, 1, (640, 480), True)
         rospy.logwarn("OUT инитится 3/4")
 
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.image_callback)

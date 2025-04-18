@@ -21,8 +21,8 @@ class GStreamerVideoReceiver:
         self.image_pub = rospy.Publisher('/nn_image', Image, queue_size=10)
         rospy.logwarn("IN инитится 3/4")
 
-        # Изменяем pipeline для получения от YOLO
-        self.input_pipeline = 'udpsrc port=5001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! h264parse ! decodebin ! videoconvert ! appsink'
+        # Изменяем pipeline для получения JPEG кадров от YOLO
+        self.input_pipeline = 'udpsrc port=5001 caps="application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)JPEG, payload=(int)26" ! rtpjpegdepay ! jpegdec ! videoconvert ! appsink'
         self.cap = cv2.VideoCapture(self.input_pipeline, cv2.CAP_GSTREAMER)
         
         if not self.cap.isOpened():
