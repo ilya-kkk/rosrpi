@@ -37,4 +37,4 @@ services:
       - /dev:/dev
       - ./nn_ws:/workspace/nn_ws
     working_dir: /workspace/nn_ws
-    command: python yolo.py
+    command: ["/bin/bash", "-c", "cd /workspace/nn_ws && python3 yolo.py"]
