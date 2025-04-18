@@ -18,7 +18,7 @@ else:
 
 # Загрузка модели YOLO (если модели нет в указанном пути, она будет скачана)
 print(" \033[1;33m NN init start \033[0m")
-model_path = "/nn_ws/yolo8n.pt"
+model_path = "yolo8n.pt"
 if not os.path.exists(model_path):
     print("Модель не найдена! Скачивание...")
     model = YOLO('yolo8n.pt')
