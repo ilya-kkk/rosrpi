@@ -100,8 +100,9 @@ def main():
         try:
             # Обработка кадра YOLO
             results = model(frame)
-            filtered_boxes = filter_detections(results, target_classes)
-
+            # filtered_boxes = filter_detections(results, target_classes)
+            filtered_boxes = results
+            
             # Рисуем рамки и подписи
             for box in filtered_boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
