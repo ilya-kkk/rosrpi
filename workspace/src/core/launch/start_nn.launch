@@ -21,16 +21,16 @@
     <!-- <include file="$(find orb_slam2_ros)/ros/launch/orb_slam_mono1.launch" /> -->
 
     <!-- Yolo в росе нода  -->
-    <node pkg="core" type="yolo_in_ros.py" name="nn"
+    <!-- <node pkg="core" type="yolo_in_ros.py" name="nn"
             output="screen">
-    </node> 
-        <!-- Отправка в нейронку -->
-    <!-- <node pkg="core" type="gstream_out.py" name="nn1_out"
-        output="screen">
-    </node> -->
-        <!-- Прием из нейронки -->
-    <!-- <node pkg="core" type="gstream_in.py" name="nn1_in"
-        output="screen">
     </node>  -->
+        <!-- Отправка в нейронку -->
+    <node pkg="core" type="gstream_out.py" name="nn1_out"
+        output="screen">
+    </node> 
+        <!-- Прием из нейронки -->
+    <node pkg="core" type="gstream_in.py" name="nn1_in"
+        output="screen">
+    </node> 
     
 </launch>
