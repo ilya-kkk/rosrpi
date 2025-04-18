@@ -3,7 +3,17 @@ import cv2
 import os
 import time
 import socket
+import torch
 from ultralytics import YOLO
+
+# Проверка доступности CUDA
+print(" \033[1;33m Проверка доступности CUDA \033[0m")
+if torch.cuda.is_available():
+    device = torch.device('cuda')
+    print(f" \033[1;32m CUDA доступна! Используется GPU: {torch.cuda.get_device_name(0)} \033[0m")
+else:
+    device = torch.device('cpu')
+    print(" \033[1;31m CUDA недоступна! Используется CPU \033[0m")
 
 # Загрузка модели YOLO (если модели нет в указанном пути, она будет скачана)
 print(" \033[1;33m NN init start \033[0m")
@@ -13,6 +23,9 @@ if not os.path.exists(model_path):
     model = YOLO('yolo8n.pt')
 else:
     model = YOLO(model_path)
+
+# Перемещение модели на GPU, если доступно
+model.to(device)
 
 # Целевые классы для обнаружения (например, человек, автомобиль, и т.д.)
 target_classes = [0, 2, 14, 15]
@@ -51,23 +64,26 @@ def main():
             print("\033[0;31m INN не пришло \033[0m")
 
         # Применяем модель YOLO для обнаружения объектов
+        try:
+            results = model(frame)
+            filtered_boxes = filter_detections(results, target_classes)
 
-        results = model(frame)
-        filtered_boxes = filter_detections(results, target_classes)
+            # Рисуем рамки и подписи для обнаруженных объектов
+            for box in filtered_boxes:
+                x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+                conf = box.conf.item()
+                cls = int(box.cls.item())
+                label = f"{model.names[cls]} {conf:.2f}"
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.putText(frame, label, (x1, y1 - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-        # Рисуем рамки и подписи для обнаруженных объектов
-        for box in filtered_boxes:
-            x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
-            conf = box.conf.item()
-            cls = int(box.cls.item())
-            label = f"{model.names[cls]} {conf:.2f}"
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.putText(frame, label, (x1, y1 - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-
-        # Отправляем обработанный кадр через выходной GStreamer pipeline
-        out.write(frame)
-        print("\033[0;32m Кадр обработан и отправлен обратно!\033[0m")
+            # Отправляем обработанный кадр через выходной GStreamer pipeline
+            out.write(frame)
+            print("\033[0;32m Кадр обработан и отправлен обратно!\033[0m")
+        except Exception as e:
+            print(f"\033[0;31m Ошибка при обработке кадра: {str(e)} \033[0m")
+            continue
 
     cap.release()
     out.release()
