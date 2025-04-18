@@ -35,7 +35,7 @@ class GStreamerVideoReceiver:
         while not rospy.is_shutdown():
             ret, frame = self.cap.read()
             if not ret:
-                rospy.logerr("IN Ошибка чтения кадра")
+                # rospy.logerr("IN Ошибка чтения кадра")
                 continue
 
             try:
