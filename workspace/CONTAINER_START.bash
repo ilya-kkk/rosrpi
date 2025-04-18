@@ -13,6 +13,7 @@ echo "${YELLOW}CONTAINER START SCRIPT RUNNING...${NC}"
 # Открываем интерактивную оболочку Bash и выполняем команды внутри неё
 /bin/bash -i << EOF
 
+pip3 install pyserial
 echo "${YELLOW}Переходим в директорию workspace...${NC}"
 cd workspace
 
@@ -23,6 +24,16 @@ export ROS_MASTER_URI=http://192.168.1.145:11311
 export ROS_HOSTNAME=192.168.1.145
 echo "${YELLOW}Настройка окружения с помощью setup.bash...${NC}"
 source devel/setup.bash
+
+# Публикуем команду движения для того чтобы ардуино начал отсылать данные
+rostopic pub /cmd_vel geometry_msgs/Twist "linear:
+  x: 0.5
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.0"
 
 roslaunch core start.launch
 EOF
