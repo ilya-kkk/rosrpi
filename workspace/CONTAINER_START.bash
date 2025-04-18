@@ -19,9 +19,11 @@ cd workspace
 
 catkin clean -y
 echo "${YELLOW}Строим catkin workspace...${NC}"
+
 catkin build
 export ROS_MASTER_URI=http://192.168.1.145:11311
 export ROS_HOSTNAME=192.168.1.145
+
 echo "${YELLOW}Настройка окружения с помощью setup.bash...${NC}"
 source devel/setup.bash
 
