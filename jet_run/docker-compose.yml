@@ -6,7 +6,7 @@ services:
   #   privileged: true
   #   stdin_open: true
   #   tty: true
-  #   network_mode: "host"
+  #   network_mode: "host"  
   #   ipc: "host"
   #   devices:
   #     - "/dev:/dev"
@@ -35,5 +35,6 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - /dev:/dev
-      - /home/xavier/rosrpi/nn_ws:/workspace/nn_ws
-    entrypoint: ["/bin/bash", "-c", "cd /workspace/nn_ws && python yolo.py"]
+      - ./nn_ws:/workspace/nn_ws
+    working_dir: /workspace/nn_ws
+    command: python yolo.py
