@@ -1,7 +1,27 @@
 services:
-  ros_rpi:
-    image: ilya9kkk/xavier:latest
-    container_name: ros_jet
+  # ros_rpi:
+  #   image: ilya9kkk/xavier:latest
+  #   container_name: ros_jet
+  #   platform: linux/arm64
+  #   privileged: true
+  #   stdin_open: true
+  #   tty: true
+  #   network_mode: "host"
+  #   ipc: "host"
+  #   devices:
+  #     - "/dev:/dev"
+  #   runtime: nvidia
+  #   environment:
+  #     - NVIDIA_VISIBLE_DEVICES=all
+  #     - LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+  #   volumes:
+  #     - /dev:/dev
+  #     - /home/xavier/rosrpi/workspace:/workspace
+  #   entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START_JET.bash"]
+
+  yolo:
+    image: ultralytics/ultralytics:latest-jetson-jetpack5
+    container_name: yolo_jet
     platform: linux/arm64
     privileged: true
     stdin_open: true
@@ -13,8 +33,7 @@ services:
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
-      - LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
     volumes:
       - /dev:/dev
-      - /home/xavier/rosrpi/workspace:/workspace
-    entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START_JET.bash"]
+      - /home/xavier/rosrpi/nn_ws:/workspace/nn_ws
+    entrypoint: ["/bin/bash", "-c", "cd /workspace/nn_ws && python yolo.py"]
