@@ -127,5 +127,7 @@ RUN apt-get install -y python3-serial
 RUN usermod -aG video $(whoami)
 RUN echo 'SUBSYSTEM=="vchiq",MODE="0666"' | tee /etc/udev/rules.d/99-camera.rules
 
+RUN pip install pyserial
+
 # WORKDIR /workspace
 # COPY ../workspace/ /workspace/

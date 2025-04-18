@@ -13,4 +13,4 @@ export PKG_CONFIG_PATH='/opt/ros/noetic/lib/pkgconfig'
 export PWD='/workspace/build/catkin_tools_prebuild'
 export PYTHONPATH='/opt/ros/noetic/lib/python3/dist-packages'
 export ROSLISP_PACKAGE_DIRECTORIES="/workspace/devel/.private/catkin_tools_prebuild/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
-export ROS_PACKAGE_PATH="/workspace/build/catkin_tools_prebuild:$ROS_PACKAGE_PATH"
+export ROS_PACKAGE_PATH='/workspace/build/catkin_tools_prebuild:/workspace/src/core:/workspace/src/mobile_robot_ros_driver:/workspace/src/nav:/workspace/src/raspicam_node:/opt/ros/noetic/share'
