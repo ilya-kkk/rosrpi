@@ -45,39 +45,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gstreamer1.0-libav \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-<<<<<<< HEAD
-# Установка ROS и связанных пакетов
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-catkin-tools \
-    ros-noetic-ecl-geometry \
-    ros-noetic-tf2-sensor-msgs \
-    ros-noetic-move-base-msgs \
-    ros-noetic-image-proc \
-    ros-noetic-image-transport \
-    ros-noetic-camera-info-manager \
-    ros-noetic-cv-bridge \
-    ros-noetic-compressed-image-transport \
-    ros-noetic-theora-image-transport \
-    ros-noetic-rqt-image-view \
-    ros-noetic-usb-cam \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Установка зависимостей OpenCV и графики
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-opencv \
-    libopencv-dev \
-    libx11-dev \
-    libxrender-dev \
-    liblapack-dev \
-    libv4l-dev \
-    libzbar-dev \
-    libpthread-stubs0-dev \
-    libsdl-dev \
-    libsdl-image1.2-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Установка Python-библиотек
-=======
 # Если требуется дополнительная настройка, например установка других утилит,
 # можно добавить их здесь
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -161,6 +128,14 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
 # Install extra libraries
 RUN apt-get install -y python3-pip
 
+# RUN pip install pathlib statistics scipy
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
+                      apt-get install -y ros-noetic-ecl-geometry \
+                                            ros-noetic-tf2-sensor-msgs \
+                                            ros-noetic-move-base-msgs \
+                                            ros-noetic-image-proc
+        
 RUN pip install numpy scikit-image pillow
 
 RUN echo "source /opt/ros/noetic/setup.bash"  >> ~/.bashrc
@@ -178,7 +153,6 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Устанавливаем необходимые Python-библиотеки
->>>>>>> 5d7f4b5132db0fc96fd2d19eeb60ee26d4868689
 RUN pip3 install --upgrade pip && \
     pip3 install matplotlib numpy scikit-learn
 
@@ -187,18 +161,8 @@ ARG USERNAME=ros
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-<<<<<<< HEAD
-RUN groupadd --gid $USER_GID $USERNAME && \
-    useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
-    mkdir -p /home/$USERNAME/.config && \
-    chown -R $USERNAME:$USERNAME /home/$USERNAME/.config && \
-    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
-    chmod 0440 /etc/sudoers.d/$USERNAME
 
-# Рабочая директория
-=======
 # Указываем рабочую директорию
->>>>>>> 5d7f4b5132db0fc96fd2d19eeb60ee26d4868689
 WORKDIR /workspace
 
 # По умолчанию запуск bash

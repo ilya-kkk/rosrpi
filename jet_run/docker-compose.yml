@@ -38,3 +38,4 @@ services:
       - /home/xavier/rosrpi/nn_ws:/workspace/nn_ws
     working_dir: /workspace/nn_ws
     command: ["/bin/bash", "-c", "apt-get update && apt-get install -y gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly && python3 yolo.py"]
+
