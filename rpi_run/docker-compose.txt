@@ -1,14 +1,20 @@
 services:
   ros_rpi:
-    image: ilya9kkk/ros_arm:nn
+    image: ilya9kkk/ros_arm:gpio
     container_name: ros_rpi
+    platform: linux/arm64
     privileged: true
     stdin_open: true         # Открывает stdin
     tty: true                # Включает псевдотерминал
     network_mode: "host"
     ipc: "host"
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+    shm_size: '4g'
     devices:
-      - /dev/video0:/dev/video0
+      - "/dev:/dev"
     group_add:
       - ${VIDEO_GID}
     environment:
@@ -16,22 +22,13 @@ services:
       - QT_X11_NO_MITSHM=1
       - XAUTHORITY
       - LD_LIBRARY_PATH=/opt/vc/lib
+      - OMP_NUM_THREADS=1
+      - OPENBLAS_NUM_THREADS=1
+      - LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
     volumes:
       - /opt/vc:/opt/vc
       - /dev:/dev
       - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
       - ${ROOT_DIR}/workspace:/workspace
     entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START.bash"]
-
-  nn1:
-    image: ilya9kkk/nn_arm:gst
-    container_name: nn1
-    network_mode: "host"  # Используем сеть хоста
-    ipc: "host"
-    stdin_open: true         # Открывает stdin
-    tty: true                # Включает псевдотерминал
-    volumes:
-      - ${ROOT_DIR}/nn_ws:/nn_ws
-    entrypoint: ["/bin/bash", "-c", "python3 /nn_ws/yolo.py; tail -f /dev/null"]
-
 
