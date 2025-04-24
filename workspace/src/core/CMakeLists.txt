@@ -11,6 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
 # ros_control
 # ros_controllers
 # gazebo_ros_control
+  rospy
+  std_msgs
+  sensor_msgs
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
@@ -104,10 +108,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
     CATKIN_DEPENDS ros_control ros_controllers gazebo_ros_control
-#  INCLUDE_DIRS include
-#  LIBRARIES my_robot_simulation
-#  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
+    INCLUDE_DIRS include
+    LIBRARIES my_robot_simulation
+    CATKIN_DEPENDS rospy std_msgs sensor_msgs cv_bridge
 )
 
 ###########
@@ -117,8 +120,8 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-# ${catkin_INCLUDE_DIRS}
+  include
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -160,10 +163,16 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+catkin_install_python(PROGRAMS
+  scripts/gstream_in.py
+  scripts/gstream_out.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS
+  src/gstreamer_utils/gstreamer_utils.py
+  DESTINATION ${CATKIN_PACKAGE_PYTHON_DESTINATION}/gstreamer_utils
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html

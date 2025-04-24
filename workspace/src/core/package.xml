@@ -45,6 +45,32 @@
   <exec_depend>nav_msgs</exec_depend>
   <exec_depend>tf</exec_depend>
 
+  <build_depend>rospy</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>python3-gi</build_depend>
+  <build_depend>python3-gi-cairo</build_depend>
+  <build_depend>gir1.2-gtk-3.0</build_depend>
+  <build_depend>gir1.2-gstreamer-1.0</build_depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>python3-gi</exec_depend>
+  <exec_depend>python3-gi-cairo</exec_depend>
+  <exec_depend>gir1.2-gtk-3.0</exec_depend>
+  <exec_depend>gir1.2-gstreamer-1.0</exec_depend>
+  <exec_depend>gstreamer1.0-tools</exec_depend>
+  <exec_depend>gstreamer1.0-plugins-base</exec_depend>
+  <exec_depend>gstreamer1.0-plugins-good</exec_depend>
+  <exec_depend>gstreamer1.0-plugins-bad</exec_depend>
+  <exec_depend>gstreamer1.0-plugins-ugly</exec_depend>
+  <exec_depend>gstreamer1.0-libav</exec_depend>
+  <exec_depend>gstreamer1.0-x</exec_depend>
+  <exec_depend>gstreamer1.0-alsa</exec_depend>
+  <exec_depend>gstreamer1.0-gl</exec_depend>
+  <exec_depend>gstreamer1.0-gtk3</exec_depend>
+  <exec_depend>gstreamer1.0-qt5</exec_depend>
+  <exec_depend>gstreamer1.0-pulseaudio</exec_depend>
+
   <export>
   </export>
 </package>
