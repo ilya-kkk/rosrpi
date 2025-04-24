@@ -156,6 +156,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --upgrade pip && \
     pip3 install matplotlib numpy scikit-learn
 
+RUN apt update && apt install -y ros-noetic-realsense2-camera
 # Создание пользователя без root-прав
 ARG USERNAME=ros
 ARG USER_UID=1000
