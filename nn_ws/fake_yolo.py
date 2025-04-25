@@ -1,4 +1,4 @@
-from gstreamer_utils import GstSubscriber, GstPublisher
+from gstreamer_utils.gstreamer_utils import GstSubscriber, GstPublisher
 import cv2
 import numpy as np
 import os
