@@ -20,7 +20,7 @@ services:
     entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START_JET.bash"]
 
   yolo:
-    image: ultralytics/ultralytics:latest-jetson-jetpack5
+    image: ilya9kkk/xavier:yolo_gst
     container_name: yolo_jet
     platform: linux/arm64
     privileged: true
