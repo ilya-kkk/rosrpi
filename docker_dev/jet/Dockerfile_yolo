@@ -1,0 +1,33 @@
+# Базовый образ с поддержкой JetPack 5 для Jetson
+FROM ultralytics/ultralytics:latest-jetson-jetpack5
+
+# Установка базовых утилит
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-utils \
+    python3-pip \
+    python3-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Установка GStreamer и V4L2
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    v4l-utils \
+    fswebcam \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-tools \
+    gstreamer1.0-libav \
+    python3-gst-1.0 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Установка Python-зависимостей
+RUN pip3 install --upgrade pip && \
+    pip3 install numpy opencv-python-headless
+
+# Копирование модуля gstreamer_utils
+COPY gstreamer_utils.py /usr/local/lib/python3.8/dist-packages/
+
+# Установка переменных окружения
+ENV PYTHONPATH=/usr/local/lib/python3.8/dist-packages:$PYTHONPATH
+
