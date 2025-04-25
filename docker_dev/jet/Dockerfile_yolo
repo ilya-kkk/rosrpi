@@ -37,12 +37,4 @@ COPY gstreamer_utils.py /usr/local/lib/python3.8/dist-packages/
 ENV PYTHONPATH=/usr/local/lib/python3.8/dist-packages:$PYTHONPATH
 ENV GST_DEBUG=3
 
-# Установка прав доступа к камере
-RUN echo 'SUBSYSTEM=="vchiq",MODE="0666"' | tee /etc/udev/rules.d/99-camera.rules
-
-# Указываем рабочую директорию
-WORKDIR /workspace
-
-# По умолчанию запуск bash
-CMD ["bash"]
 
