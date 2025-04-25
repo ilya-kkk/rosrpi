@@ -30,15 +30,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip3 install --upgrade pip && \
     pip3 install numpy opencv-python-headless PyGObject
 
-# Создание директории для модуля
-RUN mkdir -p /usr/local/lib/python3.8/dist-packages/gstreamer_utils
-
-# Копирование модуля gstreamer_utils
-COPY gstreamer_utils/__init__.py /usr/local/lib/python3.8/dist-packages/gstreamer_utils/
-COPY gstreamer_utils/gstreamer_utils.py /usr/local/lib/python3.8/dist-packages/gstreamer_utils/
+# Создание директории для монтирования библиотеки
+RUN mkdir -p /workspace/gstreamer_utils
 
 # Установка переменных окружения
-ENV PYTHONPATH=/usr/local/lib/python3.8/dist-packages:$PYTHONPATH
+ENV PYTHONPATH=/workspace:$PYTHONPATH
 ENV GST_DEBUG=3
 
 # Установка прав доступа к камере
