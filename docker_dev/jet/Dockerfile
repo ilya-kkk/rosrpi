@@ -77,46 +77,60 @@ USER root
 
 # install required packages
 
-RUN apt-get update && apt-get install -y apt-utils \
-                                         lsb-release \
-                                         mesa-utils \
-                                         net-tools \
-                                         build-essential \
-                                         wget \
-                                         unzip \
-                                         curl \
-                                         git \
-                                         mc \
-                                         vim \
-                                         tree \
-                                         tzdata \
-                                         libprotobuf-dev \
-                                         protobuf-compiler \
-                                         libgoogle-glog-dev \
-                                         libgflags-dev \
-                                         liblmdb-dev \
-                                         libsnappy-dev \
-                                         autoconf \
-                                         automake \
-                                         libtool \
-                                         python3-catkin-tools \
-                                         ros-noetic-ecl-geometry \
-                                         ros-noetic-tf2-sensor-msgs \
-                                         ros-noetic-move-base-msgs \
-                                         ros-noetic-image-proc \
-                                         ros-noetic-image-transport \
-                                         ros-noetic-camera-info-manager \
-                                         ros-noetic-cv-bridge \
-                                         ros-noetic-compressed-image-transport \
-                                         ros-noetic-theora-image-transport \
-                                         ros-noetic-rqt-image-view \
-                                         v4l-utils \
-                                         udev \
-                                         ros-noetic-usb-cam \
-                                         fswebcam \
-                                         libpthread-stubs0-dev libsdl-dev libsdl-image1.2-dev \
-                                         libeigen3-dev 
-                                        
+RUN apt-get update
+
+# Базовые утилиты
+RUN apt-get install -y apt-utils
+RUN apt-get install -y lsb-release
+RUN apt-get install -y mesa-utils
+RUN apt-get install -y net-tools
+RUN apt-get install -y build-essential
+RUN apt-get install -y wget
+RUN apt-get install -y unzip
+RUN apt-get install -y curl
+RUN apt-get install -y git
+RUN apt-get install -y mc
+RUN apt-get install -y vim
+RUN apt-get install -y tree
+RUN apt-get install -y tzdata
+
+# Зависимости для протобуфов и логирования
+RUN apt-get install -y libprotobuf-dev
+RUN apt-get install -y protobuf-compiler
+RUN apt-get install -y libgoogle-glog-dev
+RUN apt-get install -y libgflags-dev
+RUN apt-get install -y liblmdb-dev
+RUN apt-get install -y libsnappy-dev
+
+# Инструменты сборки
+RUN apt-get install -y autoconf
+RUN apt-get install -y automake
+RUN apt-get install -y libtool
+
+# ROS зависимости
+RUN apt-get install -y python3-catkin-tools
+RUN apt-get install -y ros-noetic-ecl-geometry
+RUN apt-get install -y ros-noetic-tf2-sensor-msgs
+RUN apt-get install -y ros-noetic-move-base-msgs
+RUN apt-get install -y ros-noetic-image-proc
+RUN apt-get install -y ros-noetic-image-transport
+RUN apt-get install -y ros-noetic-camera-info-manager
+RUN apt-get install -y ros-noetic-cv-bridge
+RUN apt-get install -y ros-noetic-compressed-image-transport
+RUN apt-get install -y ros-noetic-theora-image-transport
+RUN apt-get install -y ros-noetic-rqt-image-view
+
+# Зависимости для работы с камерой
+RUN apt-get install -y v4l-utils
+RUN apt-get install -y udev
+RUN apt-get install -y ros-noetic-usb-cam
+RUN apt-get install -y fswebcam
+
+# Зависимости для SDL и Eigen
+RUN apt-get install -y libpthread-stubs0-dev
+RUN apt-get install -y libsdl-dev
+RUN apt-get install -y libsdl-image1.2-dev
+RUN apt-get install -y libeigen3-dev
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     curl -s 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc' | apt-key add - && \
