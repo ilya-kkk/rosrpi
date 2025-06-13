@@ -1,8 +1,0 @@
-prefix=/workspace/install
-
-Name: mobile_robot_ros_driver
-Description: Description of mobile_robot_ros_driver
-Version: 0.0.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
