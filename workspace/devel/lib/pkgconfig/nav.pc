@@ -1,0 +1,1 @@
+/workspace/devel/.private/nav/lib/pkgconfig/nav.pc

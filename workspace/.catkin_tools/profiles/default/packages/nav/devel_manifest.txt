@@ -1,0 +1,5 @@
+nav
+/workspace/devel/.private/nav/cmake.lock /workspace/devel/./cmake.lock
+/workspace/devel/.private/nav/share/nav/cmake/navConfig-version.cmake /workspace/devel/share/nav/cmake/navConfig-version.cmake
+/workspace/devel/.private/nav/share/nav/cmake/navConfig.cmake /workspace/devel/share/nav/cmake/navConfig.cmake
+/workspace/devel/.private/nav/lib/pkgconfig/nav.pc /workspace/devel/lib/pkgconfig/nav.pc

@@ -4,15 +4,22 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
 import os
+import torch
 from ultralytics import YOLO
-
 
 model_path = "/workspace/src/core/scripts/yolo8n.pt"
 if not os.path.exists(model_path):
-    print("Model not found! Downloading...")
-    model = YOLO('yolo8n.pt')
+    rospy.loginfo("Model not found! Downloading...")
+    model = YOLO("yolo8n.pt")
 else:
     model = YOLO(model_path)
+
+# Проверяем доступность CUDA и переводим модель на GPU
+if torch.cuda.is_available():
+    rospy.loginfo("CUDA is available. Moving model to GPU.")
+    model.model.to("cuda")
+else:
+    rospy.logwarn("CUDA is not available. Running on CPU.")
 
 # Target classes for detection
 target_classes = [0, 2, 14, 15]
