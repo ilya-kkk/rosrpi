@@ -1,5 +1,5 @@
 core
 /workspace/devel/.private/core/cmake.lock /workspace/devel/./cmake.lock
+/workspace/devel/.private/core/lib/pkgconfig/core.pc /workspace/devel/lib/pkgconfig/core.pc
 /workspace/devel/.private/core/share/core/cmake/coreConfig-version.cmake /workspace/devel/share/core/cmake/coreConfig-version.cmake
 /workspace/devel/.private/core/share/core/cmake/coreConfig.cmake /workspace/devel/share/core/cmake/coreConfig.cmake
-/workspace/devel/.private/core/lib/pkgconfig/core.pc /workspace/devel/lib/pkgconfig/core.pc

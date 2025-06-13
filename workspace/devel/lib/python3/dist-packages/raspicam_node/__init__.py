@@ -1,1 +1,0 @@
-/workspace/devel/.private/raspicam_node/lib/python3/dist-packages/raspicam_node/__init__.py
