@@ -3,3 +3,7 @@ build/
 devel/
 logs/
 
+workspace/.catkin_tools/
+workspace/build/
+workspace/devel/
+workspace/logs/

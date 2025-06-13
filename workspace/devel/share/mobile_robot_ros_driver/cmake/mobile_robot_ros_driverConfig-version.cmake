@@ -1,1 +1,0 @@
-/workspace/devel/.private/mobile_robot_ros_driver/share/mobile_robot_ros_driver/cmake/mobile_robot_ros_driverConfig-version.cmake

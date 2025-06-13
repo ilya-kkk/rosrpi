@@ -1,1 +1,0 @@
-/workspace/devel/.private/mobile_robot_ros_driver/lib/pkgconfig/mobile_robot_ros_driver.pc

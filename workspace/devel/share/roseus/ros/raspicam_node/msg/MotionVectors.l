@@ -1,1 +1,0 @@
-/workspace/devel/.private/raspicam_node/share/roseus/ros/raspicam_node/msg/MotionVectors.l
