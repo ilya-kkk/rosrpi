@@ -1,9 +1,5 @@
-.catkin_tools/
-build/
-devel/
-logs/
-
 workspace/.catkin_tools/
-workspace/build/
-workspace/devel/
+workspace/devel
 workspace/logs/
+workspace/build/
+workspace/pc_sim_run/
