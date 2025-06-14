@@ -56,6 +56,7 @@ normal launch
         roslaunch core start.launch 
 ```
 ## LAUNCH on pc (if you want to launch roscore to get information from rpi on your pc)
+### Change directory to pc_run and run one of this two options
 ### best way
 ```
         docker compose up -d && docker attach ros_pc
@@ -67,6 +68,8 @@ normal launch
 
 ## LAUNCH on pc in simulator (if you want to launch project in simulator)
 
+### Change directory to pc_run and run one of this two options
+Run a container
 ```
-
+        docker compose up -d && docker exec -it ros_pc bash
 ```
