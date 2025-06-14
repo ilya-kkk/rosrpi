@@ -55,3 +55,18 @@ normal launch
 ```
         roslaunch core start.launch 
 ```
+## LAUNCH on pc (if you want to launch roscore to get information from rpi on your pc)
+### best way
+```
+        docker compose up -d && docker attach ros_pc
+```
+### In this case entery point don`t execute 
+```
+        docker compose up -d && docker exec -it ros_pc bash
+```
+
+## LAUNCH on pc in simulator (if you want to launch project in simulator)
+
+```
+
+```

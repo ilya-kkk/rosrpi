@@ -9,9 +9,9 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev:/dev
-      - "/home/user/Рабочий стол/algop/workspace:/workspace"
+      - "../workspace:/workspace"
     network_mode: "host"  # Используем сетевой режим хоста
     privileged: true  # Требуется для работы с устройствами
     stdin_open: true  # Для запуска контейнера в интерактивном режиме
     tty: true  # Ожидание ввода
-    entrypoint: ["/bin/bash", "-c", "/workspace/PC_START.bash"]
+    entrypoint: ["/bin/bash", "-c", "../workspace/PC_START.bash"]
