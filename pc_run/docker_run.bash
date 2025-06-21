@@ -7,8 +7,8 @@ xhost +local:docker || true
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 #echo "ROOT_DIR: $ROOT_DIR"  # Печать пути для отладки
 
-# Загружаем образ, если он не существует
-docker pull ilya9kkk/ros_itmo:base >&1
+# Загружаем образ, если он не существует - НУЖНО РАСКОММЕНТИРОВАТЬ ЕСЛИ НУЖЕН ОБРАЗ С ДОКЕРХАБА, МЫ ИСПОЛЬЗУЕМ ЛОКАЛЬНЫЙ ОБРАЗ
+
 
 docker stop ros_pc
 docker rm ros_pc
@@ -23,4 +23,4 @@ docker run -ti --rm \
     -v "$ROOT_DIR/workspace:/workspace" \
     --net=host \
     --privileged \
-    --name ros_pc ilya9kkk/ros_itmo:base
+    --name ros_pc ros-itmo-pc:latest
