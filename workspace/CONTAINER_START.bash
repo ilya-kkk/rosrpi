@@ -1,45 +1,50 @@
 #!/bin/bash
 
+# Этот скрипт выполняет сборку проекта Catkin.
+# Запускайте его из корневой директории /workspace внутри контейнера.
+
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-set -e  # Останавливает выполнение скрипта при ошибке
+# Останавливаем выполнение скрипта при любой ошибке
+set -e
 
-echo "${YELLOW}CONTAINER START SCRIPT RUNNING...${NC}"
+echo -e "${YELLOW}CONTAINER START SCRIPT RUNNING...${NC}"
 
-# Открываем интерактивную оболочку Bash и выполняем команды внутри неё
-/bin/bash -i << EOF
+# ШАГ 1: Активируем базовое окружение ROS. Это КЛЮЧЕВОЙ шаг.
+echo -e "${YELLOW}Sourcing ROS Noetic environment...${NC}"
+source /opt/ros/noetic/setup.bash
 
+echo -e "${YELLOW}Переходим в директорию /workspace...${NC}"
+cd /workspace
 
-echo "${YELLOW}Переходим в директорию workspace...${NC}"
-cd workspace
-
+echo -e "${YELLOW}Очистка и сборка catkin workspace...${NC}"
 catkin clean -y
-echo "${YELLOW}Строим catkin workspace...${NC}"
-
 catkin build
-export ROS_MASTER_URI=http://192.168.1.145:11311
-export ROS_HOSTNAME=192.168.1.145
 
 echo "${YELLOW}Настройка окружения с помощью setup.bash...${NC}"
 source devel/setup.bash
 
-roslaunch core start.launch
+echo -e "\n${GREEN}Сборка успешно завершена!${NC}"
 
-# Публикуем команду движения для того чтобы ардуино начал отсылать данные
-rostopic pub /cmd_vel geometry_msgs/Twist "linear:
-  x: 0.5
-  y: 0.0
-  z: 0.0
-angular:
-  x: 0.0
-  y: 0.0
-  z: 0.0"
+# ШАГ 2: Настраиваем .bashrc для будущих сессий, чтобы они включали и наш workspace
+echo -e "${YELLOW}Настройка .bashrc для автоматической загрузки окружения...${NC}"
 
-EOF
+# Удаляем старые записи из .bashrc, чтобы избежать дублирования
+sed -i '/ROS_MASTER_URI/d' ~/.bashrc
+sed -i '/ROS_HOSTNAME/d' ~/.bashrc
+# Убедимся, что базовый setup.bash есть и не дублируется
+sed -i '/\/opt\/ros\/noetic\/setup.bash/d' ~/.bashrc
+sed -i '/\/workspace\/devel\/setup.bash/d' ~/.bashrc
 
+# Добавляем актуальные настройки в конец .bashrc
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+echo "export ROS_MASTER_URI=http://localhost:11311" >> ~/.bashrc
+echo "export ROS_HOSTNAME=localhost" >> ~/.bashrc
+echo "source /workspace/devel/setup.bash" >> ~/.bashrc
+
+echo -e "\n${GREEN}Окружение настроено! Запускаем интерактивную оболочку...${NC}\n"
+echo -e "\n${YELLOW}You can launch next commands \n1.roslaunch core start.launch \n2.roslaunch nav bring_up.launch" 
 # Оставляем терминал открытым после выполнения скрипта
 exec /bin/bash
