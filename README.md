@@ -68,8 +68,12 @@ normal launch
 
 ## LAUNCH on pc in simulator (if you want to launch project in simulator)
 
-### Change directory to pc_run and run one of this two options
+### Change directory to pc_sim_run and run one of this two options
 Run a container
 ```
-        docker compose up -d && docker exec -it ros_pc bash
+        docker compose up -d && docker attach ros_sim_pc
+```
+Open a container in new terminal
+```
+        sudo docker exec -ti ros_sim_pc bash
 ```

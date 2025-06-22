@@ -1,0 +1,45 @@
+<launch>
+
+  <arg name="rviz_conf_file" default="$(find my_robot_simulation_control)/rviz/rviz_config.rviz" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"></node>
+
+  <param name="robot_description" command="xacro '$(find my_robot_simulation_control)/diff_drive_robot/urdf/diff_drive_robot.xacro'" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="40.0" />
+  </node>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find my_robot_simulation_control)/worlds/world3.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+
+  <node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model diff_drive_robot" />
+
+
+  <!-- Спавн модели -->
+  <arg name="bottle" default="$(find my_robot_simulation_control)/meshes/bottle.urdf" />
+  <arg name="couch" default="$(find my_robot_simulation_control)/meshes/couch.urdf" />
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -file $(arg bottle) -model bottle -x 4 -y 4 -z 0.0" />
+  <!-- <node name="spawn_urdf2" pkg="gazebo_ros" type="spawn_model" args="-urdf -file $(arg couch) -model couch -x 1 -y 3 -z 0.0" /> -->
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find my_robot_simulation_control)/config/diff_control.yaml" command="load"/>
+  <!-- load the controllers -->
+  <!--<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/diffrobot" args="left_wheel_controller right_wheel_controller joint_state_controller -->  <!--timeout 60"/>-->
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/diffrobot" args="left_wheel_velocity_controller right_wheel_velocity_controller joint_state_controller --timeout 60"/>
+
+  <!-- Запуск управляющего скрипта  -->
+  <node name="robot_control_node" pkg="my_robot_simulation_control" type="robot_control_node.py" output="screen"/>
+  <node pkg="my_robot_simulation_control" type="bottle_detection_node.py" name="bottle_detection" output="screen"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_conf_file)" />
+
+</launch>
