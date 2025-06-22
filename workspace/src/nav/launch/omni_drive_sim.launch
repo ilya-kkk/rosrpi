@@ -20,12 +20,14 @@
         <param name="publish_frequency" type="double" value="100.0" />
     </node>
 
+    <!-- Загрузка параметров контроллеров -->
+    <rosparam file="$(find nav)/config/omniconfig/omni_control.yaml" command="load"/>
+    
     <!-- Спавн омниколесного робота -->
     <node name="my_robot_model_spawn" pkg="gazebo_ros" type="spawn_model"
         args="-urdf -param robot_description -model robot" />
 
-    <!-- Загрузка параметров контроллеров -->
-    <rosparam file="$(find nav)/config/omniconfig/omni_control.yaml" command="load"/>
+    
 
     <!-- Запуск контроллеров колес -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"

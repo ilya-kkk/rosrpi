@@ -45,6 +45,6 @@ echo "export ROS_HOSTNAME=localhost" >> ~/.bashrc
 echo "source /workspace/devel/setup.bash" >> ~/.bashrc
 
 echo -e "\n${GREEN}Окружение настроено! Запускаем интерактивную оболочку...${NC}\n"
-echo -e "\n${YELLOW}You can launch next commands \n1.roslaunch core start.launch \n2.roslaunch nav bring_up.launch" 
+echo -e "\n${YELLOW}You can launch next commands \n1.roslaunch core start.launch \n2.roslaunch nav bring_up.launch \n3.roslaunch nav omni_drive_sim.launch" 
 # Оставляем терминал открытым после выполнения скрипта
 exec /bin/bash

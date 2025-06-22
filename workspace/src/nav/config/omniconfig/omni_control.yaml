@@ -2,19 +2,25 @@ omni_control:
   joint_state_controller:
     type: joint_state_controller/JointStateController
     publish_rate: 50
-  front_right_wheel_joint:
-    type: velocity_controllers/JointVelocityController
-    joint: fr_joint
-    pid: {p: 2.4, i: 0.0, d: 0.0}
-  front_left_wheel_joint:
+  fl_joint:
     type: velocity_controllers/JointVelocityController
     joint: fl_joint
     pid: {p: 2.4, i: 0.0, d: 0.0}
-  back_left_wheel_joint:
+  fr_joint:
     type: velocity_controllers/JointVelocityController
-    joint: br_joint
+    joint: fr_joint
     pid: {p: 2.4, i: 0.0, d: 0.0}
-  back_right_wheel_joint:
+  bl_joint:
     type: velocity_controllers/JointVelocityController
     joint: bl_joint
     pid: {p: 2.4, i: 0.0, d: 0.0}
+  br_joint:
+    type: velocity_controllers/JointVelocityController
+    joint: br_joint
+    pid: {p: 2.4, i: 0.0, d: 0.0}
+  gazebo_ros_control:
+    pid_gains:
+      fl_joint: {p: 1.0, i: 0.0, d: 0.0}
+      fr_joint: {p: 1.0, i: 0.0, d: 0.0}
+      bl_joint: {p: 1.0, i: 0.0, d: 0.0}
+      br_joint: {p: 1.0, i: 0.0, d: 0.0}
