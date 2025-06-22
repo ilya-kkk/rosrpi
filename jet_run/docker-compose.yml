@@ -1,7 +1,27 @@
 services:
   ros_rpi:
-    image: ilya9kkk/xavier:yolo
+    image: ilya9kkk/xavier:latest
     container_name: ros_jet
+    platform: linux/arm64
+    privileged: true
+    stdin_open: true
+    tty: true
+    network_mode: "host"  
+    ipc: "host"
+    devices:
+      - "/dev:/dev"
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+    volumes:
+      - /dev:/dev
+      - /home/xavier/rosrpi/workspace:/workspace
+    entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START_JET.bash"]
+
+  yolo:
+    image: ultralytics/ultralytics:latest-jetson-jetpack5
+    container_name: yolo_jet
     platform: linux/arm64
     privileged: true
     stdin_open: true
@@ -10,11 +30,12 @@ services:
     ipc: "host"
     devices:
       - "/dev:/dev"
+    runtime: nvidia
     environment:
-      - OMP_NUM_THREADS=1
-      - OPENBLAS_NUM_THREADS=1
-      - LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+      - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - /dev:/dev
-      - /home/xavier/rosrpi/workspace:/workspace
-    entrypoint: ["/bin/bash", "-c", "/workspace/CONTAINER_START_JET.bash"]
+      - /home/xavier/rosrpi/nn_ws:/workspace/nn_ws
+    working_dir: /workspace/nn_ws
+    command: ["/bin/bash", "-c", "apt-get update && apt-get install -y gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly && python3 yolo.py"]
+
