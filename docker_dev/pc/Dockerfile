@@ -99,5 +99,5 @@ WORKDIR /workspace
 # COPY ./rosrpi/workspace/ /workspace/
 # RUN chmod +x /workspace/CONTAINER_START.bash
 
-# ENTRYPOINT should be a simple shell to allow interactive use.
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["bash", "/workspace/CONTAINER_START.bash", "-i"]
+#CMD ["/bin/bash", "-i"]
