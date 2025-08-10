@@ -3,3 +3,4 @@ workspace/devel
 workspace/logs/
 workspace/build/
 workspace/pc_sim_run/
+workspace/src/.catkin_tools/
