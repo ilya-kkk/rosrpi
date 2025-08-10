@@ -1,0 +1,11 @@
+<launch>
+    <!-- Устанавливаем переменные окружения для ROS -->
+    <env name="ROS_MASTER_URI" value="http://192.168.1.137:11311" />
+    <env name="ROS_HOSTNAME" value="192.168.1.151" />
+
+    <!-- LIDAR -->
+    <include file="$(find ldlidar_stl_ros)/launch/ld19.launch" />
+
+    <!-- RealSense -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+</launch>
