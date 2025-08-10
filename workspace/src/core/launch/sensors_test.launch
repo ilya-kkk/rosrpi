@@ -1,0 +1,7 @@
+<launch>
+    <!-- LIDAR -->
+    <include file="$(find ldlidar_stl_ros)/launch/ld19.launch" />
+
+    <!-- RealSense -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+</launch>
