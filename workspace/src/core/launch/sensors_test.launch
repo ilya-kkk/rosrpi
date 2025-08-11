@@ -1,4 +1,5 @@
 <launch>
+    <param name="enable_pointcloud" value="true"/>
     <!-- LIDAR -->
     <include file="$(find ldlidar_stl_ros)/launch/ld19.launch" />
 
