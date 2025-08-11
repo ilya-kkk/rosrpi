@@ -1,18 +1,27 @@
 <launch>
-
+    <env name="ROS_MASTER_URI" value="http://192.168.1.151:11311" />
+    <env name="ROS_IP" value="192.168.1.151" />
     <!-- Запуск LL || /cmd_vel -> arduino || mobile_robot_ros_driver -->
-    <!-- <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" /> -->
+    <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" />
     
     <!-- Запуск ноды usb_cam -->
-    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
-        <!-- Параметры камеры -->
+    <!-- <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
+        
         <param name="video_device" value="/dev/video0" />
         <param name="framerate" value="30" />
         <param name="image_width" value="640" />
         <param name="image_height" value="480" />
         <param name="pixel_format" value="rgb24" />
         <param name="camera_frame_id" value="usb_cam" />
-    </node>
+    </node> -->
+
+    
+    <!-- LIDAR -->
+    <include file="$(find ldlidar_stl_ros)/launch/ld19.launch" />
+
+    <!-- RealSense -->
+    <param name="enable_pointcloud" value="true"/> 
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
 
     <!-- Отлично, у нас есть /cmd_vel для команд управления и /camera1/image с картиной с камеры -->
     <!-- Теперь можно запускать свои и заимствованые ноды -->
@@ -33,4 +42,7 @@
         output="screen">
     </node>  -->
     
+    <!-- transforms -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_realsense" args="0.07 0 0.05 0 0 0 base_link camera_link" />
+
 </launch>
