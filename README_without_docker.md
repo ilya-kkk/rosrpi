@@ -32,13 +32,17 @@ Example IP addresses:
 ---
 
 ## Launch
-move to folder rosrpi/workspace/src/core/launch
+### Conect to Raspberry Pi due to SSH (password 12345):
+```
+sudo ssh rpi@192.168.1.151
+```
+
 ### On Raspberry Pi
 ```
-. ros_env_setup_rpi .sh
+roslaunch core start.launch
 ```
 
 ### On PC
 ```
-. ros_env_setup_pc.sh
+roslaunch core rviz.launch
 ```
