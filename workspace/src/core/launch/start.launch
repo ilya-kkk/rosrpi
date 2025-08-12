@@ -61,5 +61,7 @@
     <!-- this node nessesary for sending odom data from arduino-->
     <node pkg="core" type="pub_cmd_vel_once.py" name="pub_cmd_vel_once" output="screen"/>
 
+    <node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find core)/maps/my_map" />
+
 
 </launch>
