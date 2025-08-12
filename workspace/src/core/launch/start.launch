@@ -5,7 +5,7 @@
     <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" />
     
 
-
+    
     
     <!-- LIDAR -->
     <include file="$(find ldlidar_stl_ros)/launch/ld19.launch" />
@@ -16,6 +16,20 @@
 
     <!-- Отлично, у нас есть /cmd_vel для команд управления и /camera1/image с картиной с камеры -->
     <!-- Теперь можно запускать свои и заимствованые ноды -->
+
+    <!-- SLAM (gmapping) -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <param name="base_frame" value="base_link" />
+        <param name="odom_frame" value="odom" />
+        <param name="map_update_interval" value="1.0" />
+        <param name="delta" value="0.05" />
+        <param name="throttle_scans" value="1" />
+        <rosparam>
+            wait_for_transform_timeout: 2.0
+        </rosparam>
+    </node>
+
+
 
     <!-- ORB Slam нода  -->
     <!-- <include file="$(find orb_slam2_ros)/ros/launch/orb_slam_mono1.launch" /> -->
@@ -35,8 +49,12 @@
     
     <!-- transforms -->
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_realsense"
-      args="0.07 0 0.05 0 0 0 base_link camera_link" />
+      args="0.07 0 0.05 0 0 1 base_link camera_link" /> 
+    
+    <node pkg="tf2_ros" type="static_transform_publisher" name="laser_alias"
+      args="0 0 0 0 0 0 1 base_laser laser_frame" /> 
 
+    <!-- this node nessesary for sending odom data from arduino-->
     <node pkg="core" type="pub_cmd_vel_once.py" name="pub_cmd_vel_once" output="screen"/>
 
 
