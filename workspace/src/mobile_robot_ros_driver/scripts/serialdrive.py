@@ -18,6 +18,8 @@ import serial
 import time
 from datetime import datetime
 import struct
+import numpy as np
+
 
 from scipy.spatial.transform import Rotation
 
@@ -119,11 +121,26 @@ class Serial(object):
 
                         rot = Rotation.from_euler('xyz', [0, 0, res[8]], degrees=False)
                         rot_quat = rot.as_quat()
-                        self.odometry.pose.pose.orientation.w = rot_quat[3]
-                        self.odometry.pose.pose.orientation.x = rot_quat[0]
-                        self.odometry.pose.pose.orientation.y = rot_quat[1]
-                        self.odometry.pose.pose.orientation.z = rot_quat[2]
+                        # self.odometry.pose.pose.orientation.w = rot_quat[3]
+                        # self.odometry.pose.pose.orientation.x = rot_quat[0]
+                        # self.odometry.pose.pose.orientation.y = rot_quat[1]
+                        # self.odometry.pose.pose.orientation.z = rot_quat[2]
                         #print(f'x: {res[9]}, y: {res[10]}, theta: {res[8]}')
+                        # Проверка на нулевой кватернион
+                        if np.linalg.norm(rot_quat) < 1e-6:
+                            rospy.logwarn("Received invalid quaternion, setting to identity")
+                            # Задаём кватернион по умолчанию (без вращения)
+                            self.odometry.pose.pose.orientation.w = 1.0
+                            self.odometry.pose.pose.orientation.x = 0.0
+                            self.odometry.pose.pose.orientation.y = 0.0
+                            self.odometry.pose.pose.orientation.z = 0.0
+                        else:
+                            # Нормализуем кватернион
+                            rot_quat = rot_quat / np.linalg.norm(rot_quat)
+                            self.odometry.pose.pose.orientation.w = rot_quat[3]
+                            self.odometry.pose.pose.orientation.x = rot_quat[0]
+                            self.odometry.pose.pose.orientation.y = rot_quat[1]
+                            self.odometry.pose.pose.orientation.z = rot_quat[2]
                         
                 else:
                     ser.flushInput()
