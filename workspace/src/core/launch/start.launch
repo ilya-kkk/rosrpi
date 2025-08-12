@@ -1,29 +1,47 @@
 <launch>
-
+    <env name="ROS_MASTER_URI" value="http://192.168.1.151:11311" />
+    <env name="ROS_IP" value="192.168.1.151" />
     <!-- Запуск LL || /cmd_vel -> arduino || mobile_robot_ros_driver -->
-    <!-- <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" /> -->
+    <include file="$(find mobile_robot_ros_driver)/launch/bringup.launch" />
     
-    <!-- Запуск ноды usb_cam -->
-    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
-        <!-- Параметры камеры -->
-        <param name="video_device" value="/dev/video0" />
-        <param name="framerate" value="30" />
-        <param name="image_width" value="640" />
-        <param name="image_height" value="480" />
-        <param name="pixel_format" value="rgb24" />
-        <param name="camera_frame_id" value="usb_cam" />
-    </node>
+
+    
+    
+    <!-- LIDAR -->
+    <include file="$(find ldlidar_stl_ros)/launch/ld19.launch" />
+
+    <!-- RealSense -->
+    <param name="enable_pointcloud" value="true"/> 
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
 
     <!-- Отлично, у нас есть /cmd_vel для команд управления и /camera1/image с картиной с камеры -->
     <!-- Теперь можно запускать свои и заимствованые ноды -->
+
+    <!-- SLAM (gmapping) -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <param name="base_frame" value="base_link" />
+        <param name="odom_frame" value="odom" />
+        <param name="scan_topic" value="scan" />
+        <param name="laser_frame" value="base_laser"/>
+	<param name="map_update_interval" value="0.5" />
+        <param name="delta" value="0.05" />
+        <param name="throttle_scans" value="1" />
+        <param name="linearUpdate" value="0.1" />
+        <param name="angularUpdate" value="0.1" />
+        <rosparam>
+            wait_for_transform_timeout: 2.0
+        </rosparam>
+    </node>
+
+ 
 
     <!-- ORB Slam нода  -->
     <!-- <include file="$(find orb_slam2_ros)/ros/launch/orb_slam_mono1.launch" /> -->
 
     <!-- Yolo в росе нода  -->
-    <node pkg="core" type="yolo_in_ros.py" name="nn"
+    <!--<node pkg="core" type="yolo_in_ros.py" name="nn"
             output="screen">
-    </node> 
+    </node>--> 
         <!-- Отправка в нейронку -->
     <!-- <node pkg="core" type="gstream_out.py" name="nn1_out"
         output="screen">
@@ -33,4 +51,44 @@
         output="screen">
     </node>  -->
     
+    <!-- transforms -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_realsense"
+      args="0.07 0 0.05 0 0 1 base_link camera_link" /> 
+    
+    <node pkg="tf2_ros" type="static_transform_publisher" name="laser_alias"
+      args="0 0 0 0 0 0 1 base_laser laser_frame" /> 
+
+    <!-- this node nessesary for sending odom data from arduino-->
+    <node pkg="core" type="pub_cmd_vel_once.py" name="pub_cmd_vel_once" output="screen"/>
+
+    <node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find core)/maps/my_map" />
+
+    <!-- Запуск map_server с ранее сохранённой картой -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find your_package_name)/maps/map.yaml" />
+
+    <!-- Запуск AMCL -->
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <param name="use_map_topic" value="true"/>
+        <param name="odom_model_type" value="omni"/> <!-- omni можно заменить на 'omni' при необходимости -->
+        <param name="update_min_d" value="0.2"/>
+        <param name="update_min_a" value="0.2"/>
+        <param name="min_particles" value="100"/>
+        <param name="max_particles" value="5000"/>
+        <param name="kld_err" value="0.05"/>
+        <param name="kld_z" value="0.99"/>
+        <param name="odom_alpha1" value="0.2"/>
+        <param name="odom_alpha2" value="0.2"/>
+        <param name="odom_alpha3" value="0.2"/>
+        <param name="odom_alpha4" value="0.2"/>
+    </node>
+
+     <!-- Запуск узла move_base -->
+    <node pkg="move_base" type="move_base" name="move_base" output="screen">
+        
+        <rosparam file="$(find core)/config/costmap_common_params_burger.yaml" command="load" />
+        <rosparam file="$(find core)/config/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find core)/config/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find core)/config/base_local_planner_params.yaml" command="load" />
+
+    </node>
 </launch>

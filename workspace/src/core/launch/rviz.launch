@@ -1,13 +1,13 @@
 <launch>
     <!-- Аргумент для ROS_MASTER_URI -->
-    <arg name="master_ip" default="192.168.1.145" />
+    <arg name="master_ip" default="192.168.1.151" />
 
     <!-- Аргумент для ROS_HOSTNAME (текущая машина) -->
-    <arg name="this_ip" default="192.168.1.132" />
+    <arg name="this_ip" default="192.168.1.137" />
 
     <!-- Устанавливаем переменные окружения -->
     <env name="ROS_MASTER_URI" value="http://$(arg master_ip):11311" />
-    <env name="ROS_HOSTNAME" value="$(arg this_ip)" />
+    <env name="ROS_IP" value="$(arg this_ip)" />
 
     <!-- Запуск RViz -->
     <!-- <arg name="rviz_config" default="$(find core)/config/nav.rviz" /> -->
